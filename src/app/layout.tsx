@@ -1,3 +1,4 @@
+import '../pagesGlobals.css'
 import "./globals.css";
 import '../output.css'
 import { NextUIProvider } from "@nextui-org/react";

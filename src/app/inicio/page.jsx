@@ -1,11 +1,10 @@
+
+import Inicio from '@/components/incio/Inicio'
 import React from 'react'
-import Inicio from '../../components/inicio/Inicio'
 
 const page = () => {
     return (
-        <>
-            <Inicio />
-        </>
+        <Inicio />
     )
 }
 

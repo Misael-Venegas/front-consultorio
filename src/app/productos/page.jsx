@@ -1,13 +1,9 @@
-
-import Inicio from '@/components/incio/Inicio'
-import Layout from '@/components/layout/Layout'
 import React from 'react'
 
 const page = () => {
     return (
         <Layout>
 
-            <Inicio />
         </Layout>
     )
 }

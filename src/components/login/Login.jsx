@@ -14,9 +14,8 @@ const Login = () => {
             <div className='principal-div-login' >
                 <div className='div-secundario-login' >
                     <p className='mb-5 tituloLogin' >Eyeconic mx</p>
-                    <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" className="w-20 h-20 text-large mb-5" />
+                    <img src="/assets/Images/Eyeconic_2.PNG" width={250} alt="" />  
                     <Input label='Usuario' className='mb-5' />
-
                     <Input
                         label='Contraseña'
                         className='mb-5'

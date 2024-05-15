@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { RiMenuLine } from "react-icons/ri";
 import { IoCloseSharp } from "react-icons/io5";
+import { Avatar } from '@nextui-org/react';
 const NavBar = ({ children }) => {
 
     const [isClick, setisClick] = useState(false)
@@ -18,7 +19,7 @@ const NavBar = ({ children }) => {
                     <div className='flex items-center' >
                         <div className='flex-shrink-0' >
                             <a href="/" className='text-white' >
-                                Logo
+                                <img src="/assets/Images/Eyeconic_2.PNG" width={100} alt="" />       
                             </a>
                         </div>
                     </div>
@@ -33,9 +34,9 @@ const NavBar = ({ children }) => {
                             <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Productos
                             </a>
-                            <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
-                                Otros
-                            </a>
+                            <span  >
+                                <Avatar name='Isaias' />
+                            </span>
                         </div>
                     </div>
                     <div className='md:hidden flex items-center' >
@@ -63,9 +64,9 @@ const NavBar = ({ children }) => {
                             <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                                 Productos
                             </a>
-                            <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
-                                Otros
-                            </a>
+                            <span  >
+                                <Avatar name='Isaias' />
+                            </span>
                         </div>
                     </div>
                 )

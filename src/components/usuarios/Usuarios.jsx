@@ -19,7 +19,7 @@ const Usuarios = () => {
                         <TableColumn>Nombre</TableColumn>
                         <TableColumn>Teléfono</TableColumn>
                         <TableColumn>e-mail</TableColumn>
-                        <TableColumn>Tipo</TableColumn>
+                        <TableColumn>Rol</TableColumn>
                         <TableColumn>Opciones</TableColumn>
                     </TableHeader>
                     <TableBody>

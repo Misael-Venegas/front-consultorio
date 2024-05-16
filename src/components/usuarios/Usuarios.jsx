@@ -9,10 +9,10 @@ const Usuarios = () => {
     const [openModal, setOpenModal] = useState(false)
     return (
         <>
-            <div className='float-end' >
+            <div className='float-end mb-5' >
                 <Button color='primary' onClick={() => setOpenModal(true)} >Agregar usuario <IoMdPersonAdd /> </Button>
             </div>
-            <br />
+        
             <div className='mt-8' >
                 <Table aria-label="Example static collection table">
                     <TableHeader>
@@ -41,8 +41,6 @@ const Usuarios = () => {
                 </Table>
             </div>
             <ModalNuevoUsuario isOpen={openModal} setIsOpen={setOpenModal} />
-
-
         </>
     )
 }

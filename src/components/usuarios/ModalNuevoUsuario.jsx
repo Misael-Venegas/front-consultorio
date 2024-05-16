@@ -7,20 +7,24 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
 
     const guardarUsuario = (event) => {
         event.preventDefault();
+        try {
+            const nombre = event.target.elements.nombre.value;
+            const aPaterno = event.target.elements.aPaterno.value;
+            const aMaterno = event.target.elements.aMaterno.value;
+            const correo = event.target.elements.correo.value;
+            const telefono = event.target.elements.telefono.value;
+            const rol = event.target.rol.value;
+            // Aquí puedes hacer algo con los valores obtenidos
+            console.log("Nombre:", nombre);
+            console.log("Apellido Paterno:", aPaterno);
+            console.log("Apellido Materno:", aMaterno);
+            console.log("Correo Electrónico:", correo);
+            console.log("Teléfono:", telefono);
+            console.log('Rol,', rol)
+        } catch (error) {
 
-        const nombre = event.target.elements.nombre.value;
-        const aPaterno = event.target.elements.aPaterno.value;
-        const aMaterno = event.target.elements.aMaterno.value;
-        const correo = event.target.elements.correo.value;
-        const telefono = event.target.elements.telefono.value;
-        const rol = event.target.rol.value;
-        // Aquí puedes hacer algo con los valores obtenidos
-        console.log("Nombre:", nombre);
-        console.log("Apellido Paterno:", aPaterno);
-        console.log("Apellido Materno:", aMaterno);
-        console.log("Correo Electrónico:", correo);
-        console.log("Teléfono:", telefono);
-        console.log('Rol,', rol)
+        }
+
     }
     return (
         <Modal
@@ -30,7 +34,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
 
         >
             <ModalContent>
-                <ModalHeader className="flex flex-col gap-1" >Agregar usuario</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1" >Nuevo usuario</ModalHeader>
                 <ModalBody >
                     <form className="w-full"
                         onSubmit={guardarUsuario}

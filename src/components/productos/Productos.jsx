@@ -26,14 +26,15 @@ const Productos = () => {
                         <TableColumn>
                             Precio Unitario
                         </TableColumn>
-                        <TableColumn>
-                            Descuento
-                        </TableColumn>
+
                         <TableColumn>
                             Importe
                         </TableColumn>
                         <TableColumn>
                             Código de barras
+                        </TableColumn>
+                        <TableColumn>
+                           Establecimiento
                         </TableColumn>
                         <TableColumn>
                             Precio de venta
@@ -45,9 +46,11 @@ const Productos = () => {
                             <TableCell>Pieza</TableCell>
                             <TableCell>Humylub ofteno PF duo pack (10 ML por frasco)</TableCell>
                             <TableCell>$415.00</TableCell>
-                            <TableCell>$0.0</TableCell>
+
                             <TableCell>$20,750.00</TableCell>
                             <TableCell>7506425600380</TableCell>
+                            
+                            <TableCell> <Chip color='primary' variant='flat' >Optica</Chip> </TableCell>
                             <TableCell><Chip color='warning' variant='bordered' > $250.00 </Chip></TableCell>
                         </TableRow>
                         <TableRow key="2">
@@ -55,14 +58,15 @@ const Productos = () => {
                             <TableCell>Pieza</TableCell>
                             <TableCell>Trazil ofteno 15 ml Original</TableCell>
                             <TableCell>$298.24</TableCell>
-                            <TableCell>$0.0</TableCell>
+
                             <TableCell>$4463.60</TableCell>
                             <TableCell>7702031291534 </TableCell>
+                            <TableCell> <Chip color='success' variant='flat' >Farmacia</Chip> </TableCell>
                             <TableCell><Chip color='warning' variant='bordered' > $100.00 </Chip></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
-                
+
                 <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} />
             </div>
         </>

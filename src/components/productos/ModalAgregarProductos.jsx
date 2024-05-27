@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react'
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, Checkbox } from '@nextui-org/react'
 import React from 'react'
 
 const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
@@ -51,10 +51,7 @@ const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
                                 <input type="number" id="precio" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
-                            <div className="flex-grow flex-basis-2  mb-5">
-                                <label htmlFor="descuento" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento</label>
-                                <input type="number" id="descuento" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                            </div>
+
 
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="importe" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Importe</label>
@@ -71,11 +68,15 @@ const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
                                 <label htmlFor="codigoBarras" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código de barras</label>
                                 <input type="text" id="codigoBarras" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
+                        </div>
 
-
+                        <div class="flex items-start mb-5">
+                            <div class="flex items-center h-5">
+                                <input id="productoFarmacia" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"  />
+                            </div>
+                            <label for="productoFarmacia" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Es de farmacia?</label>
                         </div>
                         <div className='float-end' >
-
                             <Button type='submit' color='primary' >Guardar</Button>
                         </div>
                     </form>

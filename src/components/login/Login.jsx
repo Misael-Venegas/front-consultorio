@@ -3,14 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { Avatar, Input, Button } from '@nextui-org/react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ErrorAlert from '../globals/ErrorAlert';
-
+import { useRouter } from 'next/navigation'
 
 const Login = () => {
-    console.log('url', process.env.NEXT_PUBLIC_API_URL)
+    const router = useRouter()
+ 
+
+
     const [isVisible, setIsVisible] = React.useState(false);
     const [usuario, setusuario] = useState('')
     const [contrasenha, setcontrasenha] = useState('')
     const [mesgError, setMesgError] = useState('')
+    const [loading, setloading] = useState(false)
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     const logIn = async () => {
@@ -21,6 +25,7 @@ const Login = () => {
         }
         const url = process.env.NEXT_PUBLIC_API_URL
         try {
+            setloading(true)
             const response = await fetch(`${url}users/login`, {
                 method: 'POST',
                 headers: {
@@ -32,9 +37,21 @@ const Login = () => {
                 })
             })
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+
             const data = await response.json()
-            console.log(data)
+            if (data.token) {
+                localStorage.setItem('token', data.token)
+                router.push('/inicio')
+            } else {
+                throw new Error('Error al inciar sesión (token)')
+            }
+            setloading(false)
         } catch (error) {
+            setloading(false)
             setMesgError(error.message)
         }
     }
@@ -65,7 +82,7 @@ const Login = () => {
                         onChange={(e) => setcontrasenha(e.target.value)}
 
                     />
-                    <Button color='primary' style={{ width: '100%' }} onClick={() => logIn()} >  Iniciar Sesión</Button>
+                    <Button isLoading={loading} color='primary' style={{ width: '100%' }} onClick={() => logIn()}  >  Iniciar Sesión</Button>
                     {
                         mesgError != '' && <ErrorAlert mensaje={mesgError} />
                     }

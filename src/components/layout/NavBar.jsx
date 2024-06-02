@@ -19,7 +19,7 @@ const NavBar = ({ children }) => {
                     <div className='flex items-center' >
                         <div className='flex-shrink-0' >
                             <a href="/" className='text-white' >
-                                <img src="/assets/Images/Eyeconic_2.PNG" width={100} alt="" />       
+                                <img src="/assets/Images/Eyeconic_2.PNG" width={100} alt="" />
                             </a>
                         </div>
                     </div>
@@ -28,10 +28,10 @@ const NavBar = ({ children }) => {
                             <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Home
                             </a>
-                            <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                            <a href="/usuarios" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Usuarios
                             </a>
-                            <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                            <a href="/productos" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Productos
                             </a>
                             <span  >

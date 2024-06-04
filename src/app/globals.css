@@ -50,3 +50,9 @@
   color: #2A84E9;
   font-weight: bold;
 }
+
+.inline-flex {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

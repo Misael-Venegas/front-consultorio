@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { Avatar, Input, Button } from '@nextui-org/react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ErrorAlert from '../globals/ErrorAlert';
@@ -7,9 +7,13 @@ import { useRouter } from 'next/navigation'
 
 const Login = () => {
     const router = useRouter()
- 
-
-
+    /*useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            router.push('/inicio')
+        }
+    }, [])
+*/
     const [isVisible, setIsVisible] = React.useState(false);
     const [usuario, setusuario] = useState('')
     const [contrasenha, setcontrasenha] = useState('')

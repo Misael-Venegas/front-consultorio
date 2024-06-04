@@ -3,6 +3,7 @@ import { Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell
 import React, { useEffect, useState } from 'react'
 import { IoMdPersonAdd } from "react-icons/io";
 import ModalNuevoUsuario from './ModalNuevoUsuario';
+import MenuOpcionsUsuarios from './MenuOpcionsUsuarios';
 
 
 const Usuarios = () => {
@@ -54,13 +55,13 @@ const Usuarios = () => {
                     <TableBody>
 
                         {
-                            arrayUsuarios.map(e => {
-                                return <TableRow key="1">
+                            arrayUsuarios.map((e, key) => {
+                                return <TableRow key={key}>
                                     <TableCell>{e.nombre}</TableCell>
                                     <TableCell>{e.telefono}</TableCell>
                                     <TableCell>{e.correo}</TableCell>
                                     <TableCell><Chip color={e.rol === 'Administrador' ? 'primary' : (e.rol === 'Recepcionista' || e.rol === 'Farmacia') ? 'success' : 'warning'} variant='flat' >{e.rol}</Chip></TableCell>
-                                    <TableCell>---</TableCell>
+                                    <TableCell> <MenuOpcionsUsuarios datosUsuario={e} /> </TableCell>
                                 </TableRow>
                             })
                         }

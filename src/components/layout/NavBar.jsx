@@ -25,14 +25,15 @@ const NavBar = ({ children }) => {
                     </div>
                     <div className='hidden md:block' >
                         <div className='ml-4 flex items-center space-x-4'>
-                            <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
-                                Home
-                            </a>
+                         
                             <a href="/usuarios" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Usuarios
                             </a>
                             <a href="/productos" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Productos
+                            </a>
+                            <a href="/inicio" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                                Inicio
                             </a>
                             <span  >
                                 <Avatar name='Isaias' />
@@ -55,14 +56,15 @@ const NavBar = ({ children }) => {
                 isClick && (
                     <div className='md:hidden'>
                         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3' >
-                            <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
-                                Home
-                            </a>
+
                             <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                                 Usuarios
                             </a>
                             <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                                 Productos
+                            </a>
+                            <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
+                                Inicio
                             </a>
                             <span  >
                                 <Avatar name='Isaias' />

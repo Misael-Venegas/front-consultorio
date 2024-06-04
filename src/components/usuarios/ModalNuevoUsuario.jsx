@@ -2,8 +2,10 @@
 
 import { Button, Modal, ModalBody, ModalContent, ModalHeader, DatePicker } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
+import { useNotification } from '@/helpers/NotificationContext'
 
 const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
+    const { showNotification } = useNotification()
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
     const [arrayRoles, setarrayRoles] = useState([])
     const [loading, setloading] = useState(false)
@@ -15,7 +17,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
     const getRoles = async _ => {
         try {
             const token = localStorage.getItem('token')
-            console.log(apiUrl)
+
             const response = await fetch(`${apiUrl}getRol`, {
                 method: 'GET',
                 headers: {
@@ -30,9 +32,10 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
             const data = await response.json()
             setarrayRoles(data)
         } catch (error) {
-
+            showNotification(error.message, 'error');
         }
     }
+
     const guardarUsuario = async (event) => {
         event.preventDefault();
         try {
@@ -44,7 +47,6 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
             const telefono = event.target.elements.telefono.value;
             const rol = event.target.rol.value;
             const cumpleanhos = event.target.fechaCumpleanhos.value
-
 
             const token = localStorage.getItem('token')
             const response = await fetch(`${apiUrl}agregarUsuario`, {
@@ -67,16 +69,20 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
                 const erroData = await response.json()
                 throw new Error(erroData.message)
             }
+            showNotification('El usuario se creo de manera correcta', 'success');
             const data = await response.json()
 
             setloading(false)
             setIsOpen(false)
         } catch (error) {
             setloading(false)
-            console.log(error.message)
+            showNotification(error.message, 'error');
         }
 
     }
+
+
+
     return (
         <Modal
             isOpen={isOpen}
@@ -121,8 +127,8 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
                                 <select type="text" id="rol" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required >
 
                                     {
-                                        arrayRoles.map(e => {
-                                            return <option value={e.id} >{e.rol}</option>
+                                        arrayRoles.map((e, key) => {
+                                            return <option value={e.id} key={key} >{e.rol}</option>
                                         })
                                     }
                                 </select>
@@ -142,7 +148,6 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
                 </ModalBody>
 
             </ModalContent>
-
         </Modal>
     )
 }

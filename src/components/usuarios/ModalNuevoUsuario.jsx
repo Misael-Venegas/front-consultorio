@@ -4,7 +4,9 @@ import { Button, Modal, ModalBody, ModalContent, ModalHeader, DatePicker } from 
 import React, { useEffect, useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
 
-const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
+const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuario }) => {
+
+
     const { showNotification } = useNotification()
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
     const [arrayRoles, setarrayRoles] = useState([])
@@ -39,6 +41,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
     const guardarUsuario = async (event) => {
         event.preventDefault();
         try {
+            const rutaConsulta = datosUsuario.length === 0 ? `${apiUrl}agregarUsuario` : `${apiUrl}editarUsuario`;
             setloading(true)
             const nombre = event.target.elements.nombre.value;
             const aPaterno = event.target.elements.aPaterno.value;
@@ -49,13 +52,14 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
             const cumpleanhos = event.target.fechaCumpleanhos.value
 
             const token = localStorage.getItem('token')
-            const response = await fetch(`${apiUrl}agregarUsuario`, {
+            const response = await fetch(rutaConsulta, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    id: datosUsuario.length === 0 ? '' : datosUsuario.id,
                     nombre,
                     aPaterno,
                     aMaterno,
@@ -69,11 +73,12 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
                 const erroData = await response.json()
                 throw new Error(erroData.message)
             }
-            showNotification('El usuario se creo de manera correcta', 'success');
+            showNotification(datosUsuario.length === 0 ? 'El usuario se creo de manera correcta' : 'Los datos se actualizaron de manera correcta', 'success');
             const data = await response.json()
 
             setloading(false)
             setIsOpen(false)
+            setActualizarUsuario(Math.random())
         } catch (error) {
             setloading(false)
             showNotification(error.message, 'error');
@@ -99,32 +104,32 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
                         <div className='flex flex-col md:flex-row gap-4 ' >
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
-                                <input type="text" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" id="nombre" defaultValue={datosUsuario?.nombre} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="aPaterno" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido paterno</label>
-                                <input type="text" id="aPaterno" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" id="aPaterno" defaultValue={datosUsuario?.a_paterno} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                         </div>
                         <div className='flex flex-col md:flex-row gap-4 ' >
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="aMaterno" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido materno</label>
-                                <input type="text" id="aMaterno" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                <input type="text" id="aMaterno" defaultValue={datosUsuario.a_materno} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                             </div>
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="correo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">e-mail</label>
-                                <input type="email" id="correo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="email" id="correo" defaultValue={datosUsuario?.correo} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                         </div>
                         <div className='flex flex-col md:flex-row gap-4 ' >
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
-                                <input type="text" id="telefono" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" id="telefono" defaultValue={datosUsuario?.telefono} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="rol" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rol</label>
-                                <select type="text" id="rol" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required >
+                                <select type="text" id="rol" defaultValue={datosUsuario?.id_rol} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required >
 
                                     {
                                         arrayRoles.map((e, key) => {
@@ -135,13 +140,13 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen }) => {
                             </div>
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="fechaCumpleanhos" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de cumpleaños</label>
-                                <input type="date" id="fechaCumpleanhos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="date" id="fechaCumpleanhos" defaultValue={new Date(datosUsuario.fecha_cumpleanhos ? datosUsuario.fecha_cumpleanhos : '2000-01-01').toISOString().split('T')[0]} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
 
                             </div>
                         </div>
                         <div className='float-end' >
 
-                            <Button isLoading={loading} type='submit' color='primary' >Guardar</Button>
+                            <Button isLoading={loading} type='submit' color='primary' >{datosUsuario.length === 0 ? 'Guardar' : 'Actualizar'}</Button>
                         </div>
                     </form>
 

@@ -14,7 +14,7 @@ const Usuarios = () => {
     const [updateUsuarios, setupdateUsuarios] = useState(3.1416)
     useEffect(() => {
         obtenerUsuarios()
-    }, [openModal, updateUsuarios])
+    }, [updateUsuarios])
 
     const obtenerUsuarios = async _ => {
         try {
@@ -60,7 +60,7 @@ const Usuarios = () => {
                         {
                             arrayUsuarios.map((e, key) => {
                                 return <TableRow key={key}>
-                                    <TableCell>{e.nombre}</TableCell>
+                                    <TableCell>{e.nombre + ' ' + e.a_paterno + ' ' + e.a_materno}</TableCell>
                                     <TableCell>{e.telefono}</TableCell>
                                     <TableCell>{e.correo}</TableCell>
                                     <TableCell><Chip color={e.rol === 'Administrador' ? 'primary' : (e.rol === 'Recepcionista' || e.rol === 'Farmacia') ? 'success' : 'warning'} variant='flat' >{e.rol}</Chip></TableCell>
@@ -74,7 +74,7 @@ const Usuarios = () => {
                 </Table>
             </div>
             {
-                openModal && <ModalNuevoUsuario isOpen={openModal} setIsOpen={setOpenModal} />
+                openModal && <ModalNuevoUsuario isOpen={openModal} setIsOpen={setOpenModal} datosUsuario={[]} setActualizarUsuario={setupdateUsuarios} />
 
             }
         </>

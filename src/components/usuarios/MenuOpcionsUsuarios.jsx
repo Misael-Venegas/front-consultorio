@@ -4,15 +4,16 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { useNotification } from '@/helpers/NotificationContext';
 import { useState } from 'react';
+import ModalNuevoUsuario from './ModalNuevoUsuario';
 
 const MenuOpcionsUsuarios = ({ datosUsuario, setUpdateUsuario }) => {
     const { showNotification } = useNotification()
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-
+    const [modalEditarUsuario, setModalEditarUsuario] = useState(false)
     const eliminarUsuario = async () => {
         const token = localStorage.getItem('token')
         const urlAPI = process.env.NEXT_PUBLIC_API_URL
-        console.log(datosUsuario, token, urlAPI)
+
         try {
 
             const response = await fetch(
@@ -51,6 +52,11 @@ const MenuOpcionsUsuarios = ({ datosUsuario, setUpdateUsuario }) => {
         setIsConfirmDialogOpen(false);
     }
 
+    const openModalEditarusuario = () => {
+        setModalEditarUsuario(true)
+
+    }
+
     return (
         <>
             <Dropdown>
@@ -63,7 +69,9 @@ const MenuOpcionsUsuarios = ({ datosUsuario, setUpdateUsuario }) => {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
-                    <DropdownItem key="edit" textValue='Editar'>
+                    <DropdownItem key="edit" textValue='Editar'
+                        onClick={() => openModalEditarusuario()}
+                    >
                         <span className='inline-flex'>Editar <MdEdit /> </span>
                     </DropdownItem>
                     <DropdownItem
@@ -78,11 +86,13 @@ const MenuOpcionsUsuarios = ({ datosUsuario, setUpdateUsuario }) => {
                 </DropdownMenu>
             </Dropdown>
 
+            <ModalNuevoUsuario isOpen={modalEditarUsuario} setIsOpen={setModalEditarUsuario} datosUsuario={datosUsuario} setActualizarUsuario={setUpdateUsuario} />
+
             <Modal isOpen={isConfirmDialogOpen} onClose={handleCloseDialog}>
                 <ModalContent>
-                    <ModalHeader>Eliminar: {datosUsuario.nombre}</ModalHeader>
+                    <ModalHeader> {datosUsuario.nombre}</ModalHeader>
                     <ModalBody >
-                        <div class="p-4 md:p-5 text-center">
+                        <div className="p-4 md:p-5 text-center">
                             <svg className="mx-auto mb-2 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>

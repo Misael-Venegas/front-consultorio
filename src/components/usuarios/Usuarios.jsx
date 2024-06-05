@@ -4,14 +4,17 @@ import React, { useEffect, useState } from 'react'
 import { IoMdPersonAdd } from "react-icons/io";
 import ModalNuevoUsuario from './ModalNuevoUsuario';
 import MenuOpcionsUsuarios from './MenuOpcionsUsuarios';
+import { useNotification } from '@/helpers/NotificationContext';
 
 
 const Usuarios = () => {
+    const { showNotification } = useNotification()
     const [openModal, setOpenModal] = useState(false)
     const [arrayUsuarios, setArrayUsuarios] = useState([])
+    const [updateUsuarios, setupdateUsuarios] = useState(3.1416)
     useEffect(() => {
         obtenerUsuarios()
-    }, [openModal])
+    }, [openModal, updateUsuarios])
 
     const obtenerUsuarios = async _ => {
         try {
@@ -32,7 +35,7 @@ const Usuarios = () => {
             const data = await response.json()
             setArrayUsuarios(data)
         } catch (error) {
-            console.log(error)
+            showNotification(error.message, 'error');
         }
     }
 
@@ -61,7 +64,7 @@ const Usuarios = () => {
                                     <TableCell>{e.telefono}</TableCell>
                                     <TableCell>{e.correo}</TableCell>
                                     <TableCell><Chip color={e.rol === 'Administrador' ? 'primary' : (e.rol === 'Recepcionista' || e.rol === 'Farmacia') ? 'success' : 'warning'} variant='flat' >{e.rol}</Chip></TableCell>
-                                    <TableCell> <MenuOpcionsUsuarios datosUsuario={e} /> </TableCell>
+                                    <TableCell> <MenuOpcionsUsuarios datosUsuario={e} setUpdateUsuario={setupdateUsuarios} /> </TableCell>
                                 </TableRow>
                             })
                         }

@@ -18,7 +18,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
 
     const getRoles = async _ => {
         try {
-            const token = localStorage.getItem('token')
+            const token = sessionStorage.getItem('token')
 
             const response = await fetch(`${apiUrl}getRol`, {
                 method: 'GET',
@@ -51,7 +51,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
             const rol = event.target.rol.value;
             const cumpleanhos = event.target.fechaCumpleanhos.value
 
-            const token = localStorage.getItem('token')
+            const token = sessionStorage.getItem('token')
             const response = await fetch(rutaConsulta, {
                 method: 'POST',
                 headers: {

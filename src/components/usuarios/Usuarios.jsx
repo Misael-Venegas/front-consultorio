@@ -1,5 +1,5 @@
 'use client'
-import { Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from '@nextui-org/react'
+import { Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Spinner } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
 import { IoMdPersonAdd } from "react-icons/io";
 import ModalNuevoUsuario from './ModalNuevoUsuario';
@@ -12,14 +12,16 @@ const Usuarios = () => {
     const [openModal, setOpenModal] = useState(false)
     const [arrayUsuarios, setArrayUsuarios] = useState([])
     const [updateUsuarios, setupdateUsuarios] = useState(3.1416)
+    const [loading, setloading] = useState(true)
     useEffect(() => {
         obtenerUsuarios()
     }, [updateUsuarios])
 
     const obtenerUsuarios = async _ => {
+        setloading(true)
         try {
             const urlAPI = process.env.NEXT_PUBLIC_API_URL
-            const token = localStorage.getItem('token')
+            const token = sessionStorage.getItem('token')
             const response = await fetch(`${urlAPI}obtenerUsuarios`, {
                 method: 'GET',
                 headers: {
@@ -36,42 +38,51 @@ const Usuarios = () => {
             setArrayUsuarios(data)
         } catch (error) {
             showNotification(error.message, 'error');
+        } finally {
+            setloading(false)
         }
     }
 
-    //console.log(arrayUsuarios)
     return (
         <>
             <div className='float-end mb-5' >
                 <Button color='primary' onClick={() => setOpenModal(true)} >Agregar usuario <IoMdPersonAdd /> </Button>
             </div>
 
+
             <div className='mt-8' >
-                <Table aria-label="Example static collection table">
-                    <TableHeader>
-                        <TableColumn>Nombre</TableColumn>
-                        <TableColumn>Teléfono</TableColumn>
-                        <TableColumn>e-mail</TableColumn>
-                        <TableColumn>Rol</TableColumn>
-                        <TableColumn>Opciones</TableColumn>
-                    </TableHeader>
-                    <TableBody>
+                {
+                    loading && <Spinner />
+                }
+                {
+                    !loading && <Table onLoad={loading} aria-label="Example static collection table">
+                        <TableHeader>
+                            <TableColumn>Nombre</TableColumn>
+                            <TableColumn>Teléfono</TableColumn>
+                            <TableColumn>e-mail</TableColumn>
+                            <TableColumn>Rol</TableColumn>
+                            <TableColumn>Opciones</TableColumn>
+                        </TableHeader>
 
-                        {
-                            arrayUsuarios.map((e, key) => {
-                                return <TableRow key={key}>
-                                    <TableCell>{e.nombre + ' ' + e.a_paterno + ' ' + e.a_materno}</TableCell>
-                                    <TableCell>{e.telefono}</TableCell>
-                                    <TableCell>{e.correo}</TableCell>
-                                    <TableCell><Chip color={e.rol === 'Administrador' ? 'primary' : (e.rol === 'Recepcionista' || e.rol === 'Farmacia') ? 'success' : 'warning'} variant='flat' >{e.rol}</Chip></TableCell>
-                                    <TableCell> <MenuOpcionsUsuarios datosUsuario={e} setUpdateUsuario={setupdateUsuarios} /> </TableCell>
-                                </TableRow>
-                            })
-                        }
+                        <TableBody>
+
+                            {
+                                arrayUsuarios.map((e, key) => {
+                                    return <TableRow key={key}>
+                                        <TableCell>{e.nombre + ' ' + e.a_paterno + ' ' + e.a_materno}</TableCell>
+                                        <TableCell>{e.telefono}</TableCell>
+                                        <TableCell>{e.correo}</TableCell>
+                                        <TableCell><Chip color={e.rol === 'Administrador' ? 'primary' : (e.rol === 'Recepcionista' || e.rol === 'Farmacia') ? 'success' : 'warning'} variant='flat' >{e.rol}</Chip></TableCell>
+                                        <TableCell> <MenuOpcionsUsuarios datosUsuario={e} setUpdateUsuario={setupdateUsuarios} /> </TableCell>
+                                    </TableRow>
+                                })
+                            }
 
 
-                    </TableBody>
-                </Table>
+                        </TableBody>
+
+                    </Table>
+                }
             </div>
             {
                 openModal && <ModalNuevoUsuario isOpen={openModal} setIsOpen={setOpenModal} datosUsuario={[]} setActualizarUsuario={setupdateUsuarios} />

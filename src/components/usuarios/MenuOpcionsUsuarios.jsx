@@ -11,7 +11,7 @@ const MenuOpcionsUsuarios = ({ datosUsuario, setUpdateUsuario }) => {
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
     const [modalEditarUsuario, setModalEditarUsuario] = useState(false)
     const eliminarUsuario = async () => {
-        const token = localStorage.getItem('token')
+        const token = sessionStorage.getItem('token')
         const urlAPI = process.env.NEXT_PUBLIC_API_URL
 
         try {

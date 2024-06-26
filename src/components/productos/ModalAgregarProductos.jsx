@@ -1,14 +1,55 @@
 import { Button, Modal, ModalBody, ModalContent, ModalHeader, Checkbox } from '@nextui-org/react'
-import React from 'react'
+import React, { useState } from 'react'
+import { useNotification } from '@/helpers/NotificationContext'
 
 const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
 
-    const guardarProducto = (e) => {
+    const { showNotification } = useNotification()
+
+    const [loading, setloading] = useState(false)
+
+    const guardarProducto = async (e) => {
         e.preventDefault()
+
         try {
-            console.log(e.target.elements)
+            setloading(true)
+            const urlAPI = process.env.NEXT_PUBLIC_API_URL
+            console.log(e.target.elements.productoFarmacia.checked)
+            const token = sessionStorage.getItem('token')
+
+
+
+            const response = await fetch(`${urlAPI}registrar-producto`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombreProducto: e.target.elements.nombre.value,
+                    cantidad: e.target.elements.cantidad.value,
+                    unidad: e.target.elements.unidad.value,
+                    descripcion: e.target.elements.descripcion.value,
+                    precioUnitario: e.target.elements.precio.value,
+                    importe: e.target.elements.importe.value,
+                    precioVenta: e.target.elements.precioVenta.value,
+                    codigoBarras: e.target.elements.codigoBarras.value,
+                    productoFarmacia: e.target.elements.productoFarmacia.checked
+                })
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                throw new Error(errorData.message)
+            }
+
+            showNotification('El producto se guardó de manera correcta')
+
         } catch (error) {
 
+        } finally {
+            setloading(false)
+            setOpenModal(false)
         }
     }
 
@@ -72,7 +113,7 @@ const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
 
                         <div class="flex items-start mb-5">
                             <div class="flex items-center h-5">
-                                <input id="productoFarmacia" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"  />
+                                <input id="productoFarmacia" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
                             </div>
                             <label for="productoFarmacia" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Es de farmacia?</label>
                         </div>

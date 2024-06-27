@@ -2,7 +2,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalHeader, Checkbox } from '@
 import React, { useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
 
-const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
+const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable }) => {
 
     const { showNotification } = useNotification()
 
@@ -43,8 +43,8 @@ const ModalAgregarProductos = ({ openModal, setOpenModal }) => {
                 throw new Error(errorData.message)
             }
 
-            showNotification('El producto se guardó de manera correcta')
-
+            showNotification('El producto se guardó de manera correcta', 'success')
+            setUpdateTable(Math.random())
         } catch (error) {
 
         } finally {

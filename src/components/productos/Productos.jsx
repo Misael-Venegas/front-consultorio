@@ -4,14 +4,16 @@ import { Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell
 import { IoMdAdd } from "react-icons/io";
 import ModalAgregarProductos from './ModalAgregarProductos';
 import { useNotification } from '@/helpers/NotificationContext';
+import MenuOpcionesProducto from './MenuOpcionesProducto';
 
 const Productos = () => {
     const [arrayProductos, setarrayProductos] = useState([])
     const [openModal, setopenModal] = useState(false)
     const { showNotification } = useNotification()
+    const [updateTable, setupdateTable] = useState(3.1416)
     useEffect(() => {
         obtenerProductos()
-    }, [])
+    }, [updateTable])
 
     const obtenerProductos = async () => {
         try {
@@ -33,7 +35,7 @@ const Productos = () => {
             }
 
             const data = await response.json()
-            console.log(data)
+
             setarrayProductos(data)
         } catch (error) {
             showNotification(error.message, 'error')
@@ -73,35 +75,30 @@ const Productos = () => {
                         <TableColumn>
                             Precio de venta
                         </TableColumn>
+                        <TableColumn>
+                            Opciones
+                        </TableColumn>
                     </TableHeader>
                     <TableBody>
-                        <TableRow key="1">
-                            <TableCell>50</TableCell>
-                            <TableCell>Pieza</TableCell>
-                            <TableCell>Humylub ofteno PF duo pack (10 ML por frasco)</TableCell>
-                            <TableCell>$415.00</TableCell>
-
-                            <TableCell>$20,750.00</TableCell>
-                            <TableCell>7506425600380</TableCell>
-
-                            <TableCell> <Chip color='primary' variant='flat' >Optica</Chip> </TableCell>
-                            <TableCell><Chip color='warning' variant='bordered' > $250.00 </Chip></TableCell>
-                        </TableRow>
-                        <TableRow key="2">
-                            <TableCell>50</TableCell>
-                            <TableCell>Pieza</TableCell>
-                            <TableCell>Trazil ofteno 15 ml Original</TableCell>
-                            <TableCell>$298.24</TableCell>
-
-                            <TableCell>$4463.60</TableCell>
-                            <TableCell>7702031291534 </TableCell>
-                            <TableCell> <Chip color='success' variant='flat' >Farmacia</Chip> </TableCell>
-                            <TableCell><Chip color='warning' variant='bordered' > $100.00 </Chip></TableCell>
-                        </TableRow>
+                        {
+                            arrayProductos.map((producto, key) => {
+                                return <TableRow key={key}>
+                                    <TableCell>{producto?.cantidad}</TableCell>
+                                    <TableCell>{producto?.unidad}</TableCell>
+                                    <TableCell>{producto?.descripcion}</TableCell>
+                                    <TableCell>${producto?.precio_unitario}</TableCell>
+                                    <TableCell>${producto?.importe}</TableCell>
+                                    <TableCell>{producto?.codigo_barras} </TableCell>
+                                    <TableCell>  {producto.producto_farmacia ? <Chip color='success' variant='flat' >Farmacia</Chip> : <Chip color='primary' variant='flat' >Óptica</Chip>}  </TableCell>
+                                    <TableCell><Chip color='warning' variant='bordered' > ${producto?.precio_venta} </Chip></TableCell>
+                                    <TableCell> <MenuOpcionesProducto datosProducto={producto} setUpdateProducto={setupdateTable} />  </TableCell>
+                                </TableRow>
+                            })
+                        }
                     </TableBody>
                 </Table>
 
-                <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} />
+                <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} setUpdateTable={setupdateTable} />
             </div>
         </>
     )

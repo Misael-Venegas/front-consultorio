@@ -6,11 +6,13 @@ import { BsThreeDots } from "react-icons/bs";
 import { useNotification } from '@/helpers/NotificationContext';
 import { useState } from 'react';
 import ConfirmDialog from './ConfirmDialog';
+import ModalAgregarProductos from './ModalAgregarProductos';
 
 const MenuOpcionesProducto = ({ datosProducto, setUpdateProducto }) => {
-    console.log(datosProducto)
+  
     const { showNotification } = useNotification()
     const [confirDialogOpen, setconfirDialogOpen] = useState(false)
+    const [openModalEditarProducto, setopenModalEditarProducto] = useState(false)
 
     const eliminarProducto = async () => {
         try {
@@ -18,7 +20,7 @@ const MenuOpcionesProducto = ({ datosProducto, setUpdateProducto }) => {
             console.log('Se elimina ', datosProducto.id)
             const token = sessionStorage.getItem('token')
             const urlAPI = process.env.NEXT_PUBLIC_API_URL
-            console.log(urlAPI)
+         
             const response = await fetch(`${urlAPI}eliminar-producto/${datosProducto.id}`, {
                 method: 'GET',
                 headers: {
@@ -50,6 +52,11 @@ const MenuOpcionesProducto = ({ datosProducto, setUpdateProducto }) => {
     const closeDialog = _ => {
         setconfirDialogOpen(false)
     }
+
+    const abrirModalEditar = _ => {
+        setopenModalEditarProducto(true)
+    }
+
     return (
         <>
             <Dropdown>
@@ -63,7 +70,7 @@ const MenuOpcionesProducto = ({ datosProducto, setUpdateProducto }) => {
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
                     <DropdownItem key="edit" textValue='Editar'
-                    // onClick={() => openModalEditarusuario()}
+                        onClick={() => abrirModalEditar()}
                     >
                         <span className='inline-flex'>Editar <MdEdit /> </span>
                     </DropdownItem>
@@ -78,6 +85,7 @@ const MenuOpcionesProducto = ({ datosProducto, setUpdateProducto }) => {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
+            <ModalAgregarProductos openModal={openModalEditarProducto} producto={datosProducto} setOpenModal={setopenModalEditarProducto} setUpdateTable={setUpdateProducto} />
             <ConfirmDialog isConfirmDialogOpen={confirDialogOpen} handleCloseDialog={closeDialog} handleConfirmDelete={eliminarProducto} />
         </>
     )

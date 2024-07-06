@@ -51,14 +51,18 @@ const Productos = () => {
                 <Table aria-label="Example static collection table">
                     <TableHeader>
                         <TableColumn>
-                            Cantidad
+                            Nombre
                         </TableColumn>
-                        <TableColumn>
-                            Unidad
-                        </TableColumn>
+
                         <TableColumn>
                             Descripción
                         </TableColumn>
+                        <TableColumn>
+                            Cantidad
+                        </TableColumn>
+                        <TableColumn>
+                        </TableColumn>
+                        Unidad
                         <TableColumn>
                             Precio Unitario
                         </TableColumn>
@@ -83,9 +87,10 @@ const Productos = () => {
                         {
                             arrayProductos.map((producto, key) => {
                                 return <TableRow key={key}>
+                                    <TableCell>{producto?.nombre_producto}</TableCell>
+                                    <TableCell>{producto?.descripcion}</TableCell>
                                     <TableCell>{producto?.cantidad}</TableCell>
                                     <TableCell>{producto?.unidad}</TableCell>
-                                    <TableCell>{producto?.descripcion}</TableCell>
                                     <TableCell>${producto?.precio_unitario}</TableCell>
                                     <TableCell>${producto?.importe}</TableCell>
                                     <TableCell>{producto?.codigo_barras} </TableCell>
@@ -98,7 +103,7 @@ const Productos = () => {
                     </TableBody>
                 </Table>
 
-                <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} setUpdateTable={setupdateTable} />
+                <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} setUpdateTable={setupdateTable} producto={null} />
             </div>
         </>
     )

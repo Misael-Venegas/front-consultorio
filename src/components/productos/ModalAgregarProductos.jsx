@@ -2,8 +2,8 @@ import { Button, Modal, ModalBody, ModalContent, ModalHeader, Checkbox } from '@
 import React, { useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
 
-const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable }) => {
-
+const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, producto }) => {
+    console.log(producto)
     const { showNotification } = useNotification()
 
     const [loading, setloading] = useState(false)
@@ -14,18 +14,16 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable }) => {
         try {
             setloading(true)
             const urlAPI = process.env.NEXT_PUBLIC_API_URL
-            console.log(e.target.elements.productoFarmacia.checked)
             const token = sessionStorage.getItem('token')
-
-
-
-            const response = await fetch(`${urlAPI}registrar-producto`, {
+            const urlQuery = producto ? `${urlAPI}editar-producto` : `${urlAPI}registrar-producto`
+            const response = await fetch(`${urlQuery}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    id: producto ? producto.id : '',
                     nombreProducto: e.target.elements.nombre.value,
                     cantidad: e.target.elements.cantidad.value,
                     unidad: e.target.elements.unidad.value,
@@ -46,7 +44,7 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable }) => {
             showNotification('El producto se guardó de manera correcta', 'success')
             setUpdateTable(Math.random())
         } catch (error) {
-
+            showNotification(error.message, 'error')
         } finally {
             setloading(false)
             setOpenModal(false)
@@ -68,57 +66,60 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable }) => {
                         <div className='flex flex-col md:flex-row gap-4 ' >
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre del producto</label>
-                                <input type="text" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" defaultValue={producto?.nombre_producto} id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="cantidad" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
-                                <input type="number" id="cantidad" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="number" defaultValue={producto?.cantidad} id="cantidad" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="unidad" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unidad</label>
-                                <input type="text" id="unidad" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" defaultValue={producto?.unidad} id="unidad" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                         </div>
                         <div className='flex md:flex-row gap-4 ' >
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descipción</label>
-                                <textarea type="text" id="descripcion" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <textarea type="text" defaultValue={producto?.descripcion} id="descripcion" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
                         </div>
                         <div className='flex flex-col md:flex-row gap-4 ' >
+
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="precio" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio unitario</label>
-                                <input type="number" id="precio" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="number" step='0.01' defaultValue={producto?.precio_unitario} id="precio" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
 
 
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="importe" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Importe</label>
-                                <input type="number" id="importe" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="number" step='0.01' defaultValue={producto?.importe} id="importe" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
+
                         </div>
                         <div className='flex flex-col md:flex-row gap-4 ' >
-                            <div className="flex-grow flex-basis-2  mb-5">
-                                <label htmlFor="precioVenta" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio de venta</label>
-                                <input type="number" id="precioVenta" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                            </div>
 
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="codigoBarras" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código de barras</label>
-                                <input type="text" id="codigoBarras" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" defaultValue={producto?.codigo_barras} id="codigoBarras" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                            </div>
+
+                            <div className="flex-grow flex-basis-2  mb-5">
+                                <label htmlFor="precioVenta" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio de venta</label>
+                                <input type="number" step='0.01' defaultValue={producto?.precio_venta} id="precioVenta" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                         </div>
 
-                        <div class="flex items-start mb-5">
-                            <div class="flex items-center h-5">
-                                <input id="productoFarmacia" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                        <div className="flex items-start mb-5">
+                            <div className="flex items-center h-5">
+                                <input id="productoFarmacia" defaultChecked={producto?.producto_farmacia} type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
                             </div>
-                            <label for="productoFarmacia" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Es de farmacia?</label>
+                            <label htmlFor="productoFarmacia" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Es de farmacia?</label>
                         </div>
                         <div className='float-end' >
-                            <Button type='submit' color='primary' >Guardar</Button>
+                            <Button type='submit' color='primary' > {producto ? 'Editar producto' : 'Guardar producto'} </Button>
                         </div>
                     </form>
 

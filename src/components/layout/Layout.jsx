@@ -6,17 +6,21 @@ import Notification from '@/components/globals/Notification';
 
 const Layout = ({ children }) => {
     return (
-        <div className='bg-[#F9FAFB] min-h-screen'>
-            <NavBar />
-            <div className='bg-white container mx-auto px-4 pt-5 my-3 min-h-screen'>
-                <AuthProvider>
-                    <NotificationProvider>
-                        {children}
-                        <Notification />
-                    </NotificationProvider>
-                </AuthProvider>
-            </div>
-        </div>
+        <>
+            <AuthProvider>
+                <NotificationProvider>
+                    <div className='bg-[#F9FAFB] min-h-screen'>
+                        <NavBar />
+                        <div className='bg-white container mx-auto px-4 pt-5 my-3 min-h-screen'>
+
+                            {children}
+                            <Notification />
+
+                        </div>
+                    </div>
+                </NotificationProvider>
+            </AuthProvider>
+        </>
     );
 };
 

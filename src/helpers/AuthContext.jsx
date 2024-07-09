@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(false);
         } else {
             const { valid, decoded } = validarToken()
-           
+
             if (valid) {
                 setuserInformation(decoded)
                 setIsAuthenticated(valid)
@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
             }
         }
     }, []);
-
     const logOut = () => {
         sessionStorage.removeItem('token');
         setIsAuthenticated(false);

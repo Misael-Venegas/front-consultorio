@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
 
 const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, producto }) => {
-    console.log(producto)
+  
     const { showNotification } = useNotification()
 
     const [loading, setloading] = useState(false)

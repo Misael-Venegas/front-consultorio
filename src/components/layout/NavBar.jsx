@@ -1,15 +1,27 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RiMenuLine } from "react-icons/ri";
 import { IoCloseSharp } from "react-icons/io5";
-import { Avatar } from '@nextui-org/react';
-const NavBar = ({ children }) => {
+import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { useAuth } from '@/helpers/AuthContext';
+import { RiLogoutBoxLine } from "react-icons/ri";
+import { TbExchange } from "react-icons/tb";
+import { useRouter } from 'next/navigation';
 
+const NavBar = ({ children }) => {
+    const router = useRouter()
+    const { userInformation } = useAuth()
     const [isClick, setisClick] = useState(false)
 
     const toggleNabVar = () => {
         setisClick(!isClick)
+    }
+
+    const iconClasses = "text-lg text-default-500 pointer-events-none flex-shrink-0";
+    const cerrarSesion = () => {
+        sessionStorage.removeItem('token')
+        router.push('/')
     }
 
     return (
@@ -18,14 +30,14 @@ const NavBar = ({ children }) => {
                 <div className='flex items-center justify-between h-16' >
                     <div className='flex items-center' >
                         <div className='flex-shrink-0' >
-                            <a href="/" className='text-white' >
+                            <a href="/inicio" className='text-white' >
                                 <img src="/assets/Images/Eyeconic_2.PNG" width={100} alt="" />
                             </a>
                         </div>
                     </div>
                     <div className='hidden md:block' >
                         <div className='ml-4 flex items-center space-x-4'>
-                         
+
                             <a href="/usuarios" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                                 Usuarios
                             </a>
@@ -36,7 +48,15 @@ const NavBar = ({ children }) => {
                                 Inicio
                             </a>
                             <span  >
-                                <Avatar name='Isaias' />
+                                <Dropdown>
+                                    <DropdownTrigger>
+                                        <Avatar name={userInformation.usuario ? userInformation.usuario : userInformation.nombre} className='seccionar-item' />
+                                    </DropdownTrigger>
+                                    <DropdownMenu>
+                                        <DropdownItem key='ChangPaswword' startContent={<TbExchange className={iconClasses} />}>Cambiar contrasenha</DropdownItem>
+                                        <DropdownItem color='danger' key='logOut' startContent={<RiLogoutBoxLine className={iconClasses} />} onClick={() => cerrarSesion()}>Cerrar sesión</DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
                             </span>
                         </div>
                     </div>
@@ -67,7 +87,15 @@ const NavBar = ({ children }) => {
                                 Inicio
                             </a>
                             <span  >
-                                <Avatar name='Isaias' />
+                                <Dropdown>
+                                    <DropdownTrigger>
+                                        <Avatar name={userInformation.usuario} className='seccionar-item' />
+                                    </DropdownTrigger>
+                                    <DropdownMenu>
+                                        <DropdownItem key='ChangPaswword' startContent={<TbExchange className={iconClasses} />}>Cambiar contrasenha</DropdownItem>
+                                        <DropdownItem color='danger' key='logOut' startContent={<RiLogoutBoxLine className={iconClasses} />} >Cerrar sesión</DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
                             </span>
                         </div>
                     </div>

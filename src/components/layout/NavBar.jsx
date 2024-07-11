@@ -8,12 +8,13 @@ import { useAuth } from '@/helpers/AuthContext';
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { TbExchange } from "react-icons/tb";
 import { useRouter } from 'next/navigation';
+import ModalCambiarContrasenha from './ModalCambiarContrasenha';
 
-const NavBar = ({ children }) => {
+const NavBar = () => {
     const router = useRouter()
     const { userInformation } = useAuth()
     const [isClick, setisClick] = useState(false)
-
+    const [openModalContrasenha, setopenModalContrasenha] = useState(false)
     const toggleNabVar = () => {
         setisClick(!isClick)
     }
@@ -53,7 +54,7 @@ const NavBar = ({ children }) => {
                                         <Avatar name={userInformation.usuario ? userInformation.usuario : userInformation.nombre} className='seccionar-item' />
                                     </DropdownTrigger>
                                     <DropdownMenu>
-                                        <DropdownItem key='ChangPaswword' startContent={<TbExchange className={iconClasses} />}>Cambiar contrasenha</DropdownItem>
+                                        <DropdownItem key='ChangPaswword' startContent={<TbExchange className={iconClasses} />} onClick={() => setopenModalContrasenha(true)}>Cambiar contrasenha</DropdownItem>
                                         <DropdownItem color='danger' key='logOut' startContent={<RiLogoutBoxLine className={iconClasses} />} onClick={() => cerrarSesion()}>Cerrar sesión</DropdownItem>
                                     </DropdownMenu>
                                 </Dropdown>
@@ -87,20 +88,14 @@ const NavBar = ({ children }) => {
                                 Inicio
                             </a>
                             <span  >
-                                <Dropdown>
-                                    <DropdownTrigger>
-                                        <Avatar name={userInformation.usuario} className='seccionar-item' />
-                                    </DropdownTrigger>
-                                    <DropdownMenu>
-                                        <DropdownItem key='ChangPaswword' startContent={<TbExchange className={iconClasses} />}>Cambiar contrasenha</DropdownItem>
-                                        <DropdownItem color='danger' key='logOut' startContent={<RiLogoutBoxLine className={iconClasses} />} >Cerrar sesión</DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown>
+                                <Avatar name={userInformation.usuario} className='seccionar-item' />
+
                             </span>
                         </div>
                     </div>
                 )
             }
+            <ModalCambiarContrasenha openModal={openModalContrasenha} setOpenModal={setopenModalContrasenha} />
         </nav>
     )
 }

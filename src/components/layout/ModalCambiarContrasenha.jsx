@@ -1,7 +1,11 @@
 import React from 'react'
 import { Modal, ModalBody, ModalContent, ModalHeader, Button } from '@nextui-org/react'
-
+import { useNotification } from '@/helpers/NotificationContext'
+import { useRouter } from 'next/navigation'
 const ModalCambiarContrasenha = ({ openModal, setOpenModal }) => {
+
+    const router = useRouter()
+    const { showNotification } = useNotification()
 
     const resetearContrasenha = async (e) => {
         e.preventDefault()
@@ -13,9 +17,28 @@ const ModalCambiarContrasenha = ({ openModal, setOpenModal }) => {
                 throw new Error('Error: Las contraseñas no coinciden')
             }
 
-            console.log('se cambia la contrasenha')
+            const token = sessionStorage.getItem('token')
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cambiar-contrasenhia`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }, body: JSON.stringify({
+                    contrasenha
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error(await response.json())
+            }
+            showNotification("La operación se realizó de manera exitosa", 'success')
+
+            //await response.json()
+            sessionStorage.removeItem('token')
+            router.push('/')
         } catch (error) {
             console.log(error)
+            showNotification(error.message, 'error')
         }
     }
 

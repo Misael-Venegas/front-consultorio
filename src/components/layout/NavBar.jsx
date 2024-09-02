@@ -78,10 +78,10 @@ const NavBar = () => {
                     <div className='md:hidden'>
                         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3' >
 
-                            <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
+                            <a href="/usuarios" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                                 Usuarios
                             </a>
-                            <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
+                            <a href="/productos" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                                 Productos
                             </a>
                             <a href="/inicio" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >

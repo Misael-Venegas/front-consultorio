@@ -28,6 +28,7 @@ const Login = () => {
             return
         }
         const url = process.env.NEXT_PUBLIC_API_URL
+        console.log(`${url}users/login`)
         try {
             setloading(true)
             const response = await fetch(`${url}users/login`, {
@@ -55,6 +56,7 @@ const Login = () => {
             }
             setloading(false)
         } catch (error) {
+            console.log(error)
             setloading(false)
             setMesgError(error.message)
         }

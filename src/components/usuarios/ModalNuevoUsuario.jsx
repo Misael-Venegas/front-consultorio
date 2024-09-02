@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
 
 const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuario }) => {
-
+    console.log(datosUsuario)
 
     const { showNotification } = useNotification()
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
@@ -50,6 +50,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
             const telefono = event.target.elements.telefono.value;
             const rol = event.target.rol.value;
             const cumpleanhos = event.target.fechaCumpleanhos.value
+            const codigoVendedor = event.target.codigoVendedor.checked
 
             const token = sessionStorage.getItem('token')
             const response = await fetch(rutaConsulta, {
@@ -66,7 +67,8 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
                     correo,
                     telefono,
                     rol,
-                    cumpleanhos
+                    cumpleanhos,
+                    codigoVendedor
                 })
             })
             if (!response.ok) {
@@ -145,8 +147,14 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
                             </div>
                         </div>
                         <div className='float-end' >
-
                             <Button isLoading={loading} type='submit' color='primary' >{datosUsuario.length === 0 ? 'Guardar' : 'Actualizar'}</Button>
+                        </div>
+
+                        <div className="flex items-start mb-5">
+                            <div className="flex items-center h-5">
+                                <input id="codigoVendedor" defaultChecked={datosUsuario?.codigo_vendedor} type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                            </div>
+                            <label htmlFor="codigoVendedor" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">¿Crear código de vendedor?</label>
                         </div>
                     </form>
 

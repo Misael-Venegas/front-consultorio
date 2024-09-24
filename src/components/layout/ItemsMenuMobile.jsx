@@ -3,6 +3,9 @@ import React from 'react'
 const ItemsMenuMobile = ({ rolUsuario }) => {
     return (
         <>
+            <a href="/caja" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                Caja
+            </a>
 
             {(rolUsuario == 'root' || rolUsuario == 'Administrador') && <>
 
@@ -39,6 +42,7 @@ const ItemsMenuMobile = ({ rolUsuario }) => {
                     </a>
                 </>
             }
+
         </>
     )
 }

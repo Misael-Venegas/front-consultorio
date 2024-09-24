@@ -1,10 +1,12 @@
 import React from 'react'
 
 const ItemsMenu = ({ rolUsuario }) => {
-    console.log(rolUsuario)
     return (
         <>
 
+            <a href="/caja" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                Caja
+            </a>
             {(rolUsuario == 'root' || rolUsuario == 'Administrador') && <>
                 <a href="/usuarios" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                     Usuarios
@@ -41,6 +43,8 @@ const ItemsMenu = ({ rolUsuario }) => {
                     </a>
                 </>
             }
+
+
         </>
     )
 }

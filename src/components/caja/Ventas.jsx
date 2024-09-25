@@ -1,23 +1,18 @@
 'use client'
-import { Divider, Input, Button, Autocomplete } from '@nextui-org/react'
+import { Divider, Input, Button } from '@nextui-org/react'
 
 import React, { useState } from 'react'
+import SelectProductos from './SelectProductos'
 const Ventas = () => {
     const [producto, setProducto] = useState([])
-    const obtenerProductos = (e) => {
-        const value = e.target.value;
-        console.log('Se buscaran productos')
-    }
+
+
     return (
         <>
             <div className='flex flex-col md:flex-row'>
                 <div className='w-full md:w-[60%] mr-10 ml-10 ' >
 
-                    <span>Nombre del producto / Código de barras</span>
-
-                    <Autocomplete onChange={(e) => obtenerProductos(e)} className='pt-3' placeholder='Ingrese el nombre del producto o el código de barras' >
-                    </Autocomplete>
-
+                    <SelectProductos setProducto={setProducto} />
                     <Divider className='my-4' />
                     {producto.length > 0 && <>
                         <div className=' pt-3 flex flex-col md:flex-row'  >

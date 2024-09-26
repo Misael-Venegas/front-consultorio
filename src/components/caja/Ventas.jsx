@@ -1,12 +1,28 @@
 'use client'
-import { Divider, Input, Button } from '@nextui-org/react'
+import { Divider, Input, Button, Chip } from '@nextui-org/react'
 
 import React, { useState } from 'react'
 import SelectProductos from './SelectProductos'
+import ListaProductos from './ListaProductos'
 const Ventas = () => {
-    const [producto, setProducto] = useState([])
+    const [listaProductos, setlistaProductos] = useState([])
+    const [producto, setProducto] = useState(null)
+    const [cantidad, setcantidad] = useState(1)
+    const [descuento, setdescuento] = useState(0)
+    const addProductToList = () => {
+        producto.descuento = parseFloat(descuento)
+        producto.cantidad = parseInt(cantidad)
+        setlistaProductos([...listaProductos, producto])
+        setProducto(null)
+        setdescuento(0)
+        setcantidad(1)
+    }
 
-
+    const deleteProductFromSearchView = () => {
+        setProducto(null)
+        setdescuento(0)
+        setcantidad(1)
+    }
     return (
         <>
             <div className='flex flex-col md:flex-row'>
@@ -14,30 +30,42 @@ const Ventas = () => {
 
                     <SelectProductos setProducto={setProducto} />
                     <Divider className='my-4' />
-                    {producto.length > 0 && <>
+                    {producto && <>
                         <div className=' pt-3 flex flex-col md:flex-row'  >
                             <div className='w-full md:w-[70%]' >
-                                <span>  Producto</span>
+                                <b>  Producto</b> <br />
+                                <span>{producto.nombre_producto}, {producto.descripcion}</span>
                             </div>
                             <div className='w-full md:w-[30%]'>
-                                <span> Stock disponible</span>
+                                <b> Stock disponible</b> <br />
+                                <div className='text-center' >
+                                    <span>{producto.cantidad < 10 ? <Chip color='warning' radius='sm' variant='flat' >{producto.cantidad}</Chip> : <Chip color='success' variant='flat' radius='sm' >{producto.cantidad}</Chip>}</span>
+                                </div>
                             </div>
                         </div>
 
                         <div className='pt-3 flex flex-col md:flex-row' >
                             <div className='pt-3 w-full md:w[33.3%] ' >
-                                <span>Precio unitario</span>
+                                <b><span>Precio unitario</span></b><br />
+                                <span> ${producto.precio_venta} </span>
                             </div>
                             <div className='pt-3 w-full md:w[33.3%] ' >
-                                Cantidad
+                                <b><span>Cantidad</span></b>
+                                <Input value={cantidad} onChange={(e) => setcantidad(e.target.value)} className='pr-6' type="number" />
                             </div>
                             <div className='pt-3 w-full md:w[33.3%] ' >
-                                <span>Descuento</span>
+                                <b><span>Descuento %</span></b>
+                                <Input value={descuento} onChange={(e) => setdescuento(e.target.value)} className='pr-6' type="number" step='0.01' />
                             </div>
                         </div>
-                        <div className='float-none pt-7' >
-                            <Button color='primary' size='md'>
+
+                        <div className='pt-7 flex justify-end'  >
+                            <Button color='primary' size='md' onClick={() => addProductToList()} >
                                 Agregar a la lista
+                            </Button>
+
+                            <Button onClick={() => deleteProductFromSearchView()} className='ml-3' color='danger' size='md'>
+                                Quitar producto
                             </Button>
                         </div>
                     </>
@@ -45,7 +73,9 @@ const Ventas = () => {
 
                 </div>
                 <div className='w-full md:w-[40%] mr-10 ml-10' >
-                    <span>Productos</span>
+
+                    <Divider className='mt-24' />
+                    <ListaProductos />
                 </div>
 
             </div>

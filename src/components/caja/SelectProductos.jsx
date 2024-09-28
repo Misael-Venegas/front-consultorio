@@ -1,7 +1,8 @@
 import { Card, Input, Text } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
-const SelectProductos = ({ setProducto }) => {
+
+const SelectProductos = ({ setProducto, producto }) => {
     const { showNotification } = useNotification()
     const [listaProductos, setListaProductos] = useState([])
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -34,7 +35,7 @@ const SelectProductos = ({ setProducto }) => {
     }
 
     const seleccionarProducto = (item) => {
-     
+
         setProducto(item)
         setIsDropdownVisible(false)
     }
@@ -46,11 +47,12 @@ const SelectProductos = ({ setProducto }) => {
                 className='pt-3'
                 placeholder="Ingrese el nombre del producto o el código de barras"
                 onChange={(e) => obtenerProductos(e.target.value)}
+                value={producto?.nombre_producto}
             />
 
             {
                 isDropdownVisible && listaProductos.length > 0 &&
-                <Card className="absolute mt-2 md:w-[42%] ">
+                <Card style={{ zIndex: 1 }} className="absolute mt-2 md:w-[42%] ">
                     {listaProductos.map((producto, index) => (
                         <div
                             key={index}

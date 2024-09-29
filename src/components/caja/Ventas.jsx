@@ -1,13 +1,63 @@
 'use client'
 import { Divider, Input, Button, Chip } from '@nextui-org/react'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectProductos from './SelectProductos'
 import ListaProductos from './ListaProductos'
 import InformacionVenta from './InformacionVenta'
 import { useNotification } from '@/helpers/NotificationContext'
 
 const Ventas = () => {
+
+    //Este codigo se usa solo para ver el nombre de las impresoras disponibles
+    
+   /* useEffect(() => {
+        // Cargar el script de QZ Tray al montar el componente
+        const loadQZTrayScript = () => {
+            const script = document.createElement('script');
+            script.src = '/js/qz-tray.js';
+            script.async = true;
+            script.onload = () => {
+                console.log('QZ Tray script loaded');
+                initializeQZ();
+            };
+            script.onerror = () => console.log('Error al cargar el script de QZ Tray');
+            document.body.appendChild(script);
+        };
+
+        const initializeQZ = async () => {
+            try {
+                // Asegúrate de que el script de QZ se cargue antes de acceder a `qz`
+                if (window.qz) {
+                    // Conectar a QZ Tray
+                    await window.qz.websocket.connect();
+
+                    // Obtener la lista de impresoras
+                    const impresorasDisponibles = await window.qz.printers.find();
+                    console.log(impresorasDisponibles);
+                } else {
+                    setError('QZ Tray no está disponible.');
+                }
+            } catch (e) {
+                setError('Error al inicializar QZ Tray: ' + e.message);
+            }
+        };
+
+        // Cargar el script si no está ya cargado
+        if (!window.qz) {
+            loadQZTrayScript();
+        } else {
+            initializeQZ();
+        }
+
+        // Desconectar de QZ Tray cuando el componente se desmonte
+        return () => {
+            if (window.qz) {
+                window.qz.websocket.disconnect();
+            }
+        };
+    }, []);
+*/ 
 
     const { showNotification } = useNotification()
     const [listaProductos, setlistaProductos] = useState([])
@@ -18,7 +68,7 @@ const Ventas = () => {
 
     const addProductToList = () => {
 
-        if (parseInt(descuento) < 0 || parseInt(descuento) > 100 ) {
+        if (parseInt(descuento) < 0 || parseInt(descuento) > 100) {
             showNotification('Error: El descuento debe estar en un rango entre 0 - 100', 'error')
             return
         }

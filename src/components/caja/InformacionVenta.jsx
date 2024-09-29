@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+
+import React, { useEffect, useState } from 'react'
 import { Button, Divider, RadioGroup, Radio, Input } from '@nextui-org/react'
 import ModalCodigoVendedor from './ModalCodigoVendedor'
 import { useNotification } from '@/helpers/NotificationContext'
+import { imprimirTicket } from '@/helpers/imprimirTicketDeVenta'
+
 const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
 
     const { showNotification } = useNotification()
@@ -9,6 +12,27 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
     const [codigoVendedor, setcodigoVendedor] = useState('')
     const [metodoPago, setmetodoPago] = useState('efectivo')
     const [codigoTicketTerminal, setCodigoTicketTerminal] = useState('')
+
+    useEffect(() => {
+        const loadQZTrayScript = () => {
+            const script = document.createElement('script');
+            script.src = '/js/qz-tray.js';
+            script.async = true;
+            document.body.appendChild(script)
+        }
+
+        if (typeof window !== undefined) {
+            loadQZTrayScript()
+        }
+
+        return () => {
+            if (window.qz) {
+                window.qz.disconnect()
+            }
+        }
+    }, [])
+
+
     const concluirVenta = async () => {
         try {
             setOpenModal(false)
@@ -44,6 +68,9 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
             }
 
             showNotification('La venta se registró de manera correcta', 'success')
+
+            await imprimirTicket(total, listaProductos, metodoPago)
+
             limpiarCampos(true)
             limpiarCamposInternos()
         } catch (error) {
@@ -56,9 +83,12 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
         setmetodoPago('efectivo')
     }
 
+
+
+
+
     return (
         <>
-
             <div className='text-3xl pt-2' >
                 <b>Total: ${total}</b>
             </div>

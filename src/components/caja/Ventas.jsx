@@ -5,7 +5,11 @@ import React, { useState } from 'react'
 import SelectProductos from './SelectProductos'
 import ListaProductos from './ListaProductos'
 import InformacionVenta from './InformacionVenta'
+import { useNotification } from '@/helpers/NotificationContext'
+
 const Ventas = () => {
+
+    const { showNotification } = useNotification()
     const [listaProductos, setlistaProductos] = useState([])
     const [producto, setProducto] = useState(null)
     const [cantidad, setcantidad] = useState(1)
@@ -13,9 +17,20 @@ const Ventas = () => {
     const [totalVenta, settotalVenta] = useState(0.0)
 
     const addProductToList = () => {
+
+        if (parseInt(descuento) < 0 || parseInt(descuento) > 100 ) {
+            showNotification('Error: El descuento debe estar en un rango entre 0 - 100', 'error')
+            return
+        }
+        if (parseInt(cantidad) <= 0) {
+            showNotification('La cantidad de productos debe ser mayor a cero', 'error')
+            return
+        }
+
         producto.descuento = parseFloat(descuento)
         producto.cantidad = parseInt(cantidad)
         producto.precioFinal = parseFloat(calcularPrecioFinal(parseFloat(descuento), parseInt(cantidad), producto.precio_venta))
+
         setlistaProductos([...listaProductos, producto])
         deleteProductFromSearchView(false)
     }
@@ -63,11 +78,11 @@ const Ventas = () => {
                             </div>
                             <div className='pt-3 w-full md:w[33.3%] ' >
                                 <b><span>Cantidad</span></b>
-                                <Input value={cantidad} onChange={(e) => setcantidad(e.target.value)} className='pr-6' type="number" />
+                                <Input min='1' value={cantidad} onChange={(e) => setcantidad(e.target.value)} className='pr-6' type="number" />
                             </div>
                             <div className='pt-3 w-full md:w[33.3%] ' >
                                 <b><span>Descuento %</span></b>
-                                <Input value={descuento} onChange={(e) => setdescuento(e.target.value)} className='pr-6' type="number" step='0.01' />
+                                <Input value={descuento} onChange={(e) => setdescuento(e.target.value)} className='pr-6' type="number" step='0.01' min='0' max='100' />
                             </div>
                         </div>
 

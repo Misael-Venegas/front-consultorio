@@ -18,8 +18,8 @@ const ModalCodigoVendedor = ({ openModal, setOpenModal, setCodigoVendedor, reali
                     <ModalBody>
 
                         <div>
-                            <span>Ingresa tu codigo de vendedor para concluir el proceso</span>
-                            <Input type='password' placeholder='Codigo vendedor' className='pt-2' onChange={(e) => setCodigoVendedor(e.target.value)} />
+                            <span>Ingresa tu código de vendedor para concluir el proceso</span>
+                            <Input type='password' placeholder='Código vendedor' className='pt-2' onChange={(e) => setCodigoVendedor(e.target.value)} />
                         </div>
                         <div className='pt-3'>
                             <Button color='primary' onClick={() => realizarVenta()} className='float-end' > Concluir venta </Button>

@@ -70,6 +70,7 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
             showNotification('La venta se registró de manera correcta', 'success')
 
             await imprimirTicket(total, listaProductos, metodoPago)
+            await imprimirTicket(total, listaProductos, metodoPago)
 
             limpiarCampos(true)
             limpiarCamposInternos()

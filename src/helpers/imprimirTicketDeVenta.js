@@ -27,7 +27,7 @@ export const imprimirTicket = async (total, listaDeProductos, metodoPago) => {
         data.push({ type: 'raw', format: 'plain', data: '\x1B\x61\x01' });
         data.push({ type: 'raw', format: 'plain', data: 'Eyeconic Salud Visual \n' })
         data.push({ type: 'raw', format: 'plain', data: 'GAVA930328GS5 \n' })
-        data.push({ type: 'raw', format: 'plain', data: 'Av. Lázaro cardenas #33-b Col. Universal, Chilpancingo de los Bravo Guerrero 39080 \n' })
+        data.push({ type: 'raw', format: 'plain', data: 'Av. Lázaro cardenas #31 Col. Universal, Chilpancingo de los Bravo Guerrero 39080 \n' })
         data.push({ type: 'raw', format: 'plain', data: 'eyeconicoptica@gmail.com \n' })
         data.push({ type: 'raw', format: 'plain', data: '7471382978 \n\n' })
 
@@ -71,6 +71,8 @@ export const imprimirTicket = async (total, listaDeProductos, metodoPago) => {
         }
     }
 }
+
+
 
 const getFormatoFecha = () => {
     const fecha = new Date()

@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from '@nextui-org/react'
+import { Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Spinner } from '@nextui-org/react'
 import { IoMdAdd } from "react-icons/io";
 import ModalAgregarProductos from './ModalAgregarProductos';
 import { useNotification } from '@/helpers/NotificationContext';
@@ -11,12 +11,14 @@ const Productos = () => {
     const [openModal, setopenModal] = useState(false)
     const { showNotification } = useNotification()
     const [updateTable, setupdateTable] = useState(3.1416)
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         obtenerProductos()
     }, [updateTable])
 
     const obtenerProductos = async () => {
         try {
+            setLoading(true)
             const urlAPI = process.env.NEXT_PUBLIC_API_URL
             const token = sessionStorage.getItem('token')
 
@@ -40,6 +42,9 @@ const Productos = () => {
         } catch (error) {
             showNotification(error.message, 'error')
         }
+        finally {
+            setLoading(false)
+        }
     }
     return (
         <>
@@ -48,7 +53,11 @@ const Productos = () => {
             </div>
 
             <div className='mt-8' >
-                <Table aria-label="Example static collection table">
+                {
+                    loading && <Spinner />
+                }
+
+                {!loading && <Table onLoad={loading} aria-label="Example static collection table">
                     <TableHeader>
                         <TableColumn>
                             Nombre
@@ -60,15 +69,9 @@ const Productos = () => {
                         <TableColumn>
                             Cantidad
                         </TableColumn>
+                       
                         <TableColumn>
-                        </TableColumn>
-                        Unidad
-                        <TableColumn>
-                            Precio Unitario
-                        </TableColumn>
-
-                        <TableColumn>
-                            Importe
+                            Unidad
                         </TableColumn>
                         <TableColumn>
                             Código de barras
@@ -91,8 +94,6 @@ const Productos = () => {
                                     <TableCell>{producto?.descripcion}</TableCell>
                                     <TableCell>{producto?.cantidad}</TableCell>
                                     <TableCell>{producto?.unidad}</TableCell>
-                                    <TableCell>${producto?.precio_unitario}</TableCell>
-                                    <TableCell>${producto?.importe}</TableCell>
                                     <TableCell>{producto?.codigo_barras} </TableCell>
                                     <TableCell>  {producto.producto_farmacia ? <Chip color='success' variant='flat' >Farmacia</Chip> : <Chip color='primary' variant='flat' >Óptica</Chip>}  </TableCell>
                                     <TableCell><Chip color='warning' variant='bordered' > ${producto?.precio_venta} </Chip></TableCell>
@@ -102,9 +103,9 @@ const Productos = () => {
                         }
                     </TableBody>
                 </Table>
-
-                <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} setUpdateTable={setupdateTable} producto={null} />
+                }
             </div>
+            <ModalAgregarProductos openModal={openModal} setOpenModal={setopenModal} setUpdateTable={setupdateTable} producto={null} />
         </>
     )
 }

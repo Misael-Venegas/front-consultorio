@@ -10,7 +10,7 @@ const Login = () => {
     useEffect(() => {
         const token = sessionStorage.getItem('token')
         if (token) {
-            router.push('/inicio')
+            router.push('/productos')
         }
     }, [])
 
@@ -49,7 +49,7 @@ const Login = () => {
             const data = await response.json()
             if (data.token) {
                 sessionStorage.setItem('token', data.token)
-                router.push('/inicio')
+                router.push('/productos')
             } else {
                 throw new Error('Error al inciar sesión (token)')
             }

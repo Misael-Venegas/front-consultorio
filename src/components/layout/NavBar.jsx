@@ -32,7 +32,7 @@ const NavBar = () => {
                 <div className='flex items-center justify-between h-16' >
                     <div className='flex items-center' >
                         <div className='flex-shrink-0' >
-                            <a href={userInformation.usuario ? "/inicio" : "/"} className='text-white' >
+                            <a href={userInformation.nombre ? "/inicio" : "/"} className='text-white' >
                                 <img src="/assets/Images/Eyeconic_2.PNG" width={100} alt="" />
                             </a>
                         </div>
@@ -42,9 +42,9 @@ const NavBar = () => {
 
                             <ItemsMenu rolUsuario={userInformation.rol} />
                             <span  >
-                                {userInformation.usuario ? <Dropdown>
+                                {userInformation.nombre ? <Dropdown>
                                     <DropdownTrigger>
-                                        <Avatar name={userInformation.usuario ? userInformation.usuario : userInformation.nombre} className='seccionar-item' />
+                                        <Avatar name={userInformation.nombre ? userInformation.nombre : userInformation.nombre} className='seccionar-item' />
                                     </DropdownTrigger>
                                     <DropdownMenu>
                                         <DropdownItem key='ChangPaswword' startContent={<TbExchange className={iconClasses} />} onClick={() => setopenModalContrasenha(true)}>Cambiar contrasenha</DropdownItem>

@@ -5,7 +5,7 @@ const ItemsMenuMobile = ({ rolUsuario }) => {
         <>
          
 
-            {(rolUsuario == 'root' || rolUsuario == 'Administrador') && <>
+            {(rolUsuario === 'root' || rolUsuario === 'Administrador') && <>
 
                 <a href="/usuarios" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                     Usuarios
@@ -20,7 +20,7 @@ const ItemsMenuMobile = ({ rolUsuario }) => {
             }
 
             {
-                rolUsuario == 'Gerente' &&
+                rolUsuario === 'Gerente' &&
                 <>
                     <a href="/productos" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                         Productos
@@ -32,9 +32,8 @@ const ItemsMenuMobile = ({ rolUsuario }) => {
             }
 
             {
-                rolUsuario == 'Recepcionista' &&
+                rolUsuario === 'Recepcionista' &&
                 <>
-
                     <a href="/productos" className='text-white block hover:bg-white hover:text-black rounded-lg p-2' >
                         Productos
                     </a>

@@ -51,7 +51,7 @@ function CardsVentas() {
                 <Card className="py-4 bg-green-200">
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                         <h4 className="font-bold">Usuarios con mayor cantidad de ventas por día</h4>
-                        <small className="text-default-500"> Noviembre </small>
+                        <small className="text-default-500"> 01/10/2024 </small>
                     </CardHeader>
                     <CardBody className="overflow-visible py-2">
                         <div  >

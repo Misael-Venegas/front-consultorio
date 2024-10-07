@@ -4,6 +4,7 @@ import { Avatar, Input, Button } from '@nextui-org/react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ErrorAlert from '../globals/ErrorAlert';
 import { useRouter } from 'next/navigation'
+import ModalRecuperarContrasenha from './ModalRecuperarContrasenha';
 
 const Login = () => {
     const router = useRouter()
@@ -20,6 +21,7 @@ const Login = () => {
     const [mesgError, setMesgError] = useState('')
     const [loading, setloading] = useState(false)
     const toggleVisibility = () => setIsVisible(!isVisible);
+    const [openModalRecuperarContrasenha, setopenModalRecuperarContrasenha] = useState(false)
 
     const logIn = async () => {
         setMesgError('')
@@ -65,9 +67,9 @@ const Login = () => {
         <>
             <div className='principal-div-login' >
                 <div className='div-secundario-login' >
-                    <p className='mb-5 tituloLogin' >Eyeconic mx</p>
-                    <img src="/assets/Images/Eyeconic_2.PNG" width={250} alt="" />
-                    <Input label='Usuario' className='mb-5'
+                    <p className=' tituloLogin' >Eyeconic mx</p>
+                    <img src="/assets/Images/eyeconic_2.PNG" width={300} alt="" />
+                    <Input label='Usuario' className='mb-3'
                         onChange={(e) => setusuario(e.target.value)}
                     />
                     <Input
@@ -91,8 +93,20 @@ const Login = () => {
                     {
                         mesgError != '' && <ErrorAlert mensaje={mesgError} />
                     }
+                    <br />
+                    <p style={
+                        {
+                            color: '#4B99EA'
+                        }
+                    } className='seccionar-item' onClick={() => setopenModalRecuperarContrasenha(true)} >
+                        Recuperar contraseña
+                    </p>
                 </div>
             </div>
+
+
+            {openModalRecuperarContrasenha && <ModalRecuperarContrasenha openModal={openModalRecuperarContrasenha} setOpenModal={setopenModalRecuperarContrasenha} />
+            }
         </>
     )
 }

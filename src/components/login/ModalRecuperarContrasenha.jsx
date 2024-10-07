@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Modal, ModalBody, ModalHeader, ModalContent, Input, Button } from '@nextui-org/react'
 import ErrorAlert from '../globals/ErrorAlert';
+import NotificationAlertSucces from '../globals/SuccesNotificationLogin';
 const ModalRecuperarContrasenha = ({ openModal, setOpenModal }) => {
 
     const [loading, setloading] = useState(false)
     const [correoElectronico, setcorreoElectronico] = useState('')
     const [error, seterror] = useState('')
+    const [succesNotification, setSuccesNotification] = useState('')
     const enviarCorreo = async () => {
         seterror('')
+        setSuccesNotification('')
         try {
             setloading(true)
             if (correoElectronico === '') {
@@ -27,7 +30,11 @@ const ModalRecuperarContrasenha = ({ openModal, setOpenModal }) => {
                 throw new Error(erroData.message)
             }
 
-            console.log('El correo se envió de manera exitosa')
+            setSuccesNotification('El correo se envió de manera exitosa')
+
+            setTimeout(() => {
+                setOpenModal(false)
+            }, 1000);
         } catch (error) {
             seterror(error.message)
         } finally {
@@ -47,6 +54,10 @@ const ModalRecuperarContrasenha = ({ openModal, setOpenModal }) => {
                     <Button color='primary' onClick={() => enviarCorreo()} isLoading={loading} > Enviar </Button>
                     {
                         error != '' && <ErrorAlert mensaje={error} />
+                    }
+
+                    {
+                        succesNotification != '' && <NotificationAlertSucces mensaje={succesNotification} />
                     }
                 </ModalBody>
             </ModalContent>

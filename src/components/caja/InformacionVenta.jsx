@@ -12,6 +12,7 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
     const [codigoVendedor, setcodigoVendedor] = useState('')
     const [metodoPago, setmetodoPago] = useState('efectivo')
     const [codigoTicketTerminal, setCodigoTicketTerminal] = useState('')
+    const [telfonoCliente, settelfonoCliente] = useState('')
 
     useEffect(() => {
         const loadQZTrayScript = () => {
@@ -57,8 +58,9 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
                     listaProductos,
                     totalVenta: total,
                     codigoVendedor,
-                    codigoTicketTerminal,
-                    pagoEfectivo: metodoPago === 'efectivo' ? true : false
+                    codigoTicketTerminal: metodoPago == 'tarjeta' ? codigoTicketTerminal : null,
+                    metodoPago,
+                    telefonoCliente: metodoPago == 'transferencia' ? telfonoCliente : null
                 })
             })
 
@@ -106,6 +108,9 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
                         <Radio value='tarjeta' >
                             Tarjeta
                         </Radio>
+                        <Radio value='transferencia' >
+                            Transferencia
+                        </Radio>
                     </RadioGroup>
                 </div >
                 {
@@ -113,6 +118,13 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
                     metodoPago == 'tarjeta' && <div className='pt-3'>
                         <span>Ingresa el código del ticket </span>
                         <Input onChange={(e) => setCodigoTicketTerminal(e.target.value)} />
+                    </div>
+                }
+                {
+
+                    metodoPago == 'transferencia' && <div className='pt-3'>
+                        <span>Ingrese el número de teléfono del cliente </span>
+                        <Input onChange={(e) => settelfonoCliente(e.target.value)} />
                     </div>
                 }
                 <Button className='float-end mt-5' color='primary' onClick={() => setOpenModal(true)} >

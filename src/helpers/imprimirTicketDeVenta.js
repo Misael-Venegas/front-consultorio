@@ -19,7 +19,7 @@ export const imprimirTicket = async (total, listaDeProductos, metodoPago) => {
                 type: 'pixel',
                 format: 'image', //'pdf'
                 flavor: 'file',
-                data: '/assets/Images/logo_eyeconic 2.PNG'
+                data: '/assets/Images/eyeconic_2.png'
             }]
         // Enviar el ticket para impresión
         await window.qz.print(config, data);
@@ -42,10 +42,10 @@ export const imprimirTicket = async (total, listaDeProductos, metodoPago) => {
             const cantidad = `X${producto.cantidad}`.padEnd(5, ' ');
             const descuento = `${producto.descuento}%`.padEnd(6, ' ');
             const precio = `$${producto.precioFinal.toFixed(2)}`;
-            data.push({ 
-                type: 'raw', 
-                format: 'plain', 
-                data: `${nombreProducto}${cantidad}${descuento}${precio}\n` 
+            data.push({
+                type: 'raw',
+                format: 'plain',
+                data: `${nombreProducto}${cantidad}${descuento}${precio}\n`
             });
         });
 
@@ -57,12 +57,63 @@ export const imprimirTicket = async (total, listaDeProductos, metodoPago) => {
         data.push({ type: 'raw', format: 'plain', data: '\x1B\x45\x00' }); // Negrita OFF
         data.push({ type: 'raw', format: 'plain', data: `Método de pago: ${metodoPago}\n` })
 
-        data.push({ type: 'raw', format: 'plain', data: '¡Gracias por su compra!\n' })
+        data.push({ type: 'raw', format: 'plain', data: '\x1B\x61\x00' });
+        data.push({ type: 'raw', format: 'plain', data: '\n\n\n' })
+        data.push({ type: 'raw', format: 'plain', data: '\x1D\x56\x41' })
+        data.push({ type: 'raw', format: 'plain', data: '_________________________________\n\n' })
+        //console.log(data)
+        await window.qz.print(config, data);
+
+        var data = [
+            {
+                type: 'pixel',
+                format: 'image', //'pdf'
+                flavor: 'file',
+                data: '/assets/Images/eyeconic_2.png'
+            }]
+        // Enviar el ticket para impresión
+        await window.qz.print(config, data);
+        data = [{ type: 'raw', format: 'plain', data: `${obtenerFecha} \n` }]
+        data.push({ type: 'raw', format: 'plain', data: '\x1B\x61\x01' });
+        data.push({ type: 'raw', format: 'plain', data: 'Eyeconic Salud Visual \n' })
+        data.push({ type: 'raw', format: 'plain', data: 'GAVA930328GS5 \n' })
+        data.push({ type: 'raw', format: 'plain', data: 'Av. Lázaro cardenas #33-b Col. Universal, Chilpancingo de los Bravo Guerrero 39080 \n' })
+        data.push({ type: 'raw', format: 'plain', data: 'eyeconicoptica@gmail.com \n' })
+        data.push({ type: 'raw', format: 'plain', data: '7471382978 \n\n' })
+
+        data.push({ type: 'raw', format: 'plain', data: '------------------------------- \n' })
+        // Formato de tabla para los productos
+        data.push({ type: 'raw', format: 'plain', data: '\x1B\x45\x01' }); // Negrita ON
+        data.push({ type: 'raw', format: 'plain', data: 'Producto      Cant  Desc  Precio\n' });
+        data.push({ type: 'raw', format: 'plain', data: '\x1B\x45\x00' }); // Negrita OFF
+
+        listaDeProductos.forEach(producto => {
+            const nombreProducto = producto.nombre_producto.padEnd(11, ' '); // Ajustar el nombre a 12 caracteres
+            const cantidad = `X${producto.cantidad}`.padEnd(5, ' ');
+            const descuento = `${producto.descuento}%`.padEnd(6, ' ');
+            const precio = `$${producto.precioFinal.toFixed(2)}`;
+            data.push({
+                type: 'raw',
+                format: 'plain',
+                data: `${nombreProducto}${cantidad}${descuento}${precio}\n`
+            });
+        });
+
+        data.push({ type: 'raw', format: 'plain', data: '------------------------------- \n\n' })
+        data.push({ type: 'raw', format: 'plain', data: '\x1B\x45\x01' }); // Negrita ON
+        data.push({ type: 'raw', format: 'plain', data: '\x1D\x21\x11' }); // Texto grande
+        data.push({ type: 'raw', format: 'plain', data: `Total: $${total}\n` })
+        data.push({ type: 'raw', format: 'plain', data: '\x1D\x21\x00' }); // Volver al tamaño normal
+        data.push({ type: 'raw', format: 'plain', data: '\x1B\x45\x00' }); // Negrita OFF
+        data.push({ type: 'raw', format: 'plain', data: `Método de pago: ${metodoPago}\n` })
+
         data.push({ type: 'raw', format: 'plain', data: '\x1B\x61\x00' });
         data.push({ type: 'raw', format: 'plain', data: '\n\n\n' })
         data.push({ type: 'raw', format: 'plain', data: '\x1D\x56\x41' })
         //console.log(data)
         await window.qz.print(config, data);
+
+
     } catch (error) {
         console.error('Error al intentar imprimir: ', error);
     } finally {

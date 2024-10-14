@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@nextui-org/react'
 import { useNotification } from '@/helpers/NotificationContext'
+import { peticionGet } from '@/helpers/peticionesAPI'
 const TablaCumpleanhos = () => {
     const [listaCumpleanhos, setlistaCumpleanhos] = useState([])
     const { showNotification } = useNotification()
+    const [loading, setloading] = useState(false)
     useEffect(() => {
         obtenerListaCumpleanhos()
     }, [])
 
     const obtenerListaCumpleanhos = async () => {
         try {
-            const url = process.env.NEXT_PUBLIC_API_URL
-            const token = sessionStorage.getItem('token')
-            const response = await fetch(`${url}obtener-lista-cumpleanhos`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
+            setloading(true)
+     
+            const response = await peticionGet('obtener-lista-cumpleanhos', true)
             if (!response.ok) {
                 const dataError = await response.json()
                 throw new Error(dataError)
@@ -28,8 +24,11 @@ const TablaCumpleanhos = () => {
         } catch (error) {
             showNotification(error.message, 'error')
         }
+        finally {
+            setloading(false)
+        }
     }
-    
+
     return (
         <div className='my-8'>
             <h4 className='font-bold text-large' >Cumpleaños próximo</h4>

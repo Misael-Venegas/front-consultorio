@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@nextui-org/react'
+import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, Spinner } from '@nextui-org/react'
 import { useNotification } from '@/helpers/NotificationContext'
 import { peticionGet } from '@/helpers/peticionesAPI'
 const TablaCumpleanhos = () => {
@@ -13,7 +13,7 @@ const TablaCumpleanhos = () => {
     const obtenerListaCumpleanhos = async () => {
         try {
             setloading(true)
-     
+
             const response = await peticionGet('obtener-lista-cumpleanhos', true)
             if (!response.ok) {
                 const dataError = await response.json()
@@ -32,7 +32,10 @@ const TablaCumpleanhos = () => {
     return (
         <div className='my-8'>
             <h4 className='font-bold text-large' >Cumpleaños próximo</h4>
-            <Table className='pl-3'  >
+            {
+                loading && <Spinner />
+            }
+            {!loading && <Table className='pl-3'  >
                 <TableHeader>
 
                     <TableColumn>#</TableColumn>
@@ -59,7 +62,7 @@ const TablaCumpleanhos = () => {
                         })
                     }
                 </TableBody>
-            </Table>
+            </Table>}
         </div>
     )
 }

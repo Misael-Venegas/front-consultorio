@@ -1,11 +1,34 @@
 import { Card, CardBody, CardHeader, DatePicker } from '@nextui-org/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PiMoneyThin } from "react-icons/pi";
+import { today, getLocalTimeZone } from '@internationalized/date';
+import { useNotification } from '@/helpers/NotificationContext';
+import { peticionesPost } from '@/helpers/peticionesAPI';
 const CardVentasPorDia = () => {
+    const { showNotification } = useNotification()
+    const [fechaVenta, setfechaVenta] = useState(today(getLocalTimeZone()))
+    const [total, settotal] = useState(0.0)
+    useEffect(() => {
+        obtenerTotalDeVentas()
+    }, [fechaVenta])
 
-    const [fechaVenta, setfechaVenta] = useState(new Date())
-    console.log(fechaVenta)
-    
+    const obtenerTotalDeVentas = async () => {
+        try {
+            console.log(fechaVenta.year)
+            const response = await peticionesPost('total-ventas-por-dia', true, { fecha: `${fechaVenta.year}-${fechaVenta.month}-${fechaVenta.day}` })
+
+            if (!response.ok) {
+                const dataError = await response.json()
+                throw new Error(dataError.message)
+            }
+            const data = await response.json()
+            console.log(data)
+            settotal(data.total ? data.total : 0.0)
+        } catch (error) {
+            showNotification(error.message, 'error')
+        }
+    }
+
     return (
         <Card className="py-4 bg-blue-200 ">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -13,14 +36,15 @@ const CardVentasPorDia = () => {
                 <small className="text-default-500">
                     <DatePicker size='sm'
                         color='primary'
-                      
+                        value={fechaVenta}
+                        onChange={setfechaVenta}
                     />
                 </small>
             </CardHeader>
             <CardBody className="overflow-visible py-2">
                 <div  >
                     <h3 className='font-bold text-4xl' >
-                        $5400
+                        ${total}
                     </h3>
 
                     <PiMoneyThin />

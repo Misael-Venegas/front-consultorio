@@ -55,9 +55,8 @@ const Login = () => {
             } else {
                 throw new Error('Error al inciar sesión (token)')
             }
-            setloading(false)
         } catch (error) {
-            console.log(error)
+            
             setloading(false)
             setMesgError(error.message)
         }

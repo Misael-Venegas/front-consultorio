@@ -126,7 +126,7 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
                         <div className='flex flex-col md:flex-row gap-4 ' >
                             <div className="flex-grow flex-basis-2  mb-5">
                                 <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
-                                <input type="text" id="telefono" defaultValue={datosUsuario?.telefono} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="text" maxLength={10} minLength={10} id="telefono" defaultValue={datosUsuario?.telefono} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
                             <div className="flex-grow flex-basis-2  mb-5">

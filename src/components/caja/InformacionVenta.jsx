@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { Button, Divider, RadioGroup, Radio, Input } from '@nextui-org/react'
+import { Button, Divider, RadioGroup, Radio, Input, Checkbox } from '@nextui-org/react'
 import ModalCodigoVendedor from './ModalCodigoVendedor'
 import { useNotification } from '@/helpers/NotificationContext'
 import { imprimirTicket } from '@/helpers/imprimirTicketDeVenta'
@@ -14,6 +14,7 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
     const [codigoTicketTerminal, setCodigoTicketTerminal] = useState('')
     const [telfonoCliente, settelfonoCliente] = useState('')
 
+    const [imprimirTicketVenta, setImprimirTicketVenta] = useState(true)
     useEffect(() => {
         const loadQZTrayScript = () => {
             const script = document.createElement('script');
@@ -70,9 +71,9 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
             }
 
             showNotification('La venta se registró de manera correcta', 'success')
-
-            await imprimirTicket(total, listaProductos, metodoPago)
-
+            if (imprimirTicketVenta) {
+                await imprimirTicket(total, listaProductos, metodoPago)
+            }
             limpiarCampos(true)
             limpiarCamposInternos()
         } catch (error) {
@@ -83,11 +84,12 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
     const limpiarCamposInternos = () => {
         setCodigoTicketTerminal('')
         setmetodoPago('efectivo')
+        setImprimirTicketVenta(true)
     }
 
 
 
-
+    console.log(imprimirTicketVenta)
 
     return (
         <>
@@ -127,6 +129,9 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
                         <Input onChange={(e) => settelfonoCliente(e.target.value)} />
                     </div>
                 }
+                <Divider className='mt-3' />
+
+                <Checkbox className='mt-3' isSelected={imprimirTicketVenta} onValueChange={setImprimirTicketVenta} >¿Imprimir ticket?</Checkbox>
                 <Button className='float-end mt-5' color='primary' onClick={() => setOpenModal(true)} >
                     Realizar venta
                 </Button>

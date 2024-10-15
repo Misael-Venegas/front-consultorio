@@ -1,10 +1,9 @@
 import React from 'react'
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
-
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { RiUserStarLine } from "react-icons/ri";
 import { FiUserCheck } from "react-icons/fi";
 import CardVentasPorDia from './CardVentasPorDia';
+import CardVentasPormes from './CardVentasPormes';
 function CardsVentas() {
     return (
         <div className='flex flex-col md:flex-row' >
@@ -13,23 +12,7 @@ function CardsVentas() {
             </div>
 
             <div className='w-full md:w-[25%] mr-10 ml-10' >
-                <Card className="py-4 ">
-                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                        <h4 className="font-bold text-large">Ventas por mes</h4>
-                        <small className="text-default-500"> Noviembre </small>
-                    </CardHeader>
-                    <CardBody className="overflow-visible py-2">
-                        <div  >
-                            <h3 className='font-bold text-4xl' >
-                                $5400
-                            </h3>
-                            <FaMoneyBillTrendUp />
-
-                        </div>
-
-                    </CardBody>
-
-                </Card>
+                <CardVentasPormes />
             </div>
 
             <div className='w-full md:w-[25%] mr-8 ml-8 ' >

@@ -39,7 +39,7 @@ const TablaProductosCantidadMinima = () => {
     }
 
     return (
-        <div className='my-8' >
+        <div className='my-8 min-h-20' >
             <h4 className='font-bold text-large' >Productos con stock bajo </h4>
 
             {

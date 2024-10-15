@@ -30,7 +30,7 @@ const TablaCumpleanhos = () => {
     }
 
     return (
-        <div className='my-8'>
+        <div className='my-8 min-h-20'>
             <h4 className='font-bold text-large' >Cumpleaños próximo</h4>
             {
                 loading && <Spinner />

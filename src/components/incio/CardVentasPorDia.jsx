@@ -22,7 +22,7 @@ const CardVentasPorDia = () => {
                 throw new Error(dataError.message)
             }
             const data = await response.json()
-            console.log(data)
+          
             settotal(data.total ? data.total : 0.0)
         } catch (error) {
             showNotification(error.message, 'error')

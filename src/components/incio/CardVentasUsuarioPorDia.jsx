@@ -23,7 +23,7 @@ const CardVentasUsuarioPorDia = () => {
                 throw new Error(dataError.message)
             }
             const data = await response.json()
-            console.log(data)
+    
             setdatosUsuario(data ? (data?.nombre + ' ' + data?.a_paterno) : '')
         } catch (error) {
             showNotification(error.message, 'error')

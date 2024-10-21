@@ -39,14 +39,14 @@ const TablaProductosCantidadMinima = () => {
     }
 
     return (
-        <div className='my-8 min-h-20' >
+        <div className='my-8' >
             <h4 className='font-bold text-large' >Productos con stock bajo </h4>
 
             {
                 loading && <Spinner />
             }
             {
-                !loading && <Table className='pr-3' >
+                !loading && <Table className='pr-3 w-[100%] h-[80%]' >
                     <TableHeader>
                         <TableColumn>#</TableColumn>
                         <TableColumn>Nombre</TableColumn>
@@ -70,7 +70,7 @@ const TablaProductosCantidadMinima = () => {
                                     </TableCell>
 
                                     <TableCell>
-                                        {data.cantidad > 0 ? <Chip color="warning" variant="bordered"> {data.cantidad} </Chip> : <Chip color="danger" variant="bordered"> {data.cantidad} </Chip>}
+                                        {data.cantidad > 0 ? <Chip color="warning" radius='sm' variant="dot"> {data.cantidad} </Chip> : <Chip color="danger" variant="bordered"> {data.cantidad} </Chip>}
                                     </TableCell>
                                 </TableRow>
                             })

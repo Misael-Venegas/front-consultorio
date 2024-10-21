@@ -1,31 +1,31 @@
-import { Card, CardBody, CardHeader, Select, SelectItem, Spinner } from '@nextui-org/react';
-import React, { useEffect, useState } from 'react'
-import { meses, listaAnhos } from '../../helpers/globals'
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
-import { peticionesPost } from '@/helpers/peticionesAPI';
+import { listaAnhos, meses } from '@/helpers/globals';
 import { useNotification } from '@/helpers/NotificationContext';
+import { peticionesPost } from '@/helpers/peticionesAPI';
+import { Card, CardBody, CardHeader, Select, SelectItem, Spinner } from '@nextui-org/react'
+import React, { useEffect, useState } from 'react'
+import { FiUserCheck } from "react-icons/fi";
 
-const CardVentasPormes = () => {
+const CardVentasUsuarioPorMes = () => {
     const { showNotification } = useNotification()
     const [mes, setmes] = useState((new Date().getMonth() + 1).toString())
     const [anhio, setanhio] = useState(listaAnhos.anhioActual.toString())
-    const [total, settotal] = useState(0.0)
     const [loading, setloading] = useState(false)
+    const [nombreUsuario, setnombreUsuario] = useState('')
     useEffect(() => {
-        obtenerVentasPorMes()
+        obtenerDatosVendedor()
     }, [mes, anhio])
 
-    const obtenerVentasPorMes = async () => {
+    const obtenerDatosVendedor = async () => {
         try {
             setloading(true)
-            const response = await peticionesPost('obtener-total-ventas-por-mes', true, { mes, anhio })
-
+            const response = await peticionesPost('obtener-usuarios-mayor-ventas-por-mes', true, { mes, anhio })
             if (!response.ok) {
                 const dataError = await response.json()
                 throw new Error(dataError.message)
             }
             const data = await response.json()
-            settotal(data.total ? data.total : 0.0)
+
+            setnombreUsuario(data?.nombre_empleado ? data.nombre_empleado : '')
         } catch (error) {
             showNotification(error.message, 'error')
         } finally {
@@ -34,10 +34,10 @@ const CardVentasPormes = () => {
     }
 
     return (
-        <Card className="py-4 h-[100%]">
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                <h4 className="font-bold text-large">Ventas por mes</h4>
 
+        <Card className="py-4 bg-orange-200 h-[100%]">
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+                <h4 className="font-bold">Usuarios con mayor cantidad de ventas por mes</h4>
                 <div className='flex w-full flex-wrap md:flex-nowrap gap-4' >
                     <Select
                         label='Mes'
@@ -71,24 +71,21 @@ const CardVentasPormes = () => {
                         }
                     </Select>
                 </div>
-
             </CardHeader>
             <CardBody className="overflow-visible py-2">
-                <div  >
-                    {
-                        loading && <Spinner />
-                    }
-                    {!loading && <h3 className='font-bold text-4xl' >
-                        ${total}
-                    </h3>}
-                    <FaMoneyBillTrendUp />
-
-                </div>
-
+                {
+                    loading && <Spinner />
+                }
+                {!loading && < div >
+                    <h3 className='font-bold text-2xl' >
+                        {nombreUsuario}
+                    </h3>
+                </div>}
+                <FiUserCheck />
             </CardBody>
 
-        </Card>
+        </Card >
     )
 }
 
-export default CardVentasPormes
+export default CardVentasUsuarioPorMes

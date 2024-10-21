@@ -32,7 +32,7 @@ const CardVentasPorDia = () => {
     }
 
     return (
-        <Card className="py-4 bg-blue-200 ">
+        <Card className="py-4 bg-blue-200 h-[100%]">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <h4 className="font-bold text-large">Ventas por día</h4>
 

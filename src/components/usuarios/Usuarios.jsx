@@ -5,12 +5,14 @@ import { IoMdPersonAdd } from "react-icons/io";
 import ModalNuevoUsuario from './ModalNuevoUsuario';
 import MenuOpcionsUsuarios from './MenuOpcionsUsuarios';
 import { useNotification } from '@/helpers/NotificationContext';
+import FiltroBusqueda from '../globals/FiltroBusqueda';
 
 
 const Usuarios = () => {
     const { showNotification } = useNotification()
     const [openModal, setOpenModal] = useState(false)
     const [arrayUsuarios, setArrayUsuarios] = useState([])
+    const [arrayAuxiliar, setarrayAuxiliar] = useState([])
     const [updateUsuarios, setupdateUsuarios] = useState(3.1416)
     const [loading, setloading] = useState(true)
     useEffect(() => {
@@ -36,6 +38,7 @@ const Usuarios = () => {
 
             const data = await response.json()
             setArrayUsuarios(data)
+            setarrayAuxiliar(data)
         } catch (error) {
             showNotification(error.message, 'error');
         } finally {
@@ -49,7 +52,7 @@ const Usuarios = () => {
                 <Button color='primary' onClick={() => setOpenModal(true)} >Agregar usuario <IoMdPersonAdd /> </Button>
             </div>
 
-
+            <FiltroBusqueda setArray={setArrayUsuarios} arrayAuxiliar={arrayAuxiliar} textoPlaceholder={'Ingresa el nombre del usuario'} campoBusqueda={'nombre'} />
             <div className='mt-8' >
                 {
                     loading && <Spinner />

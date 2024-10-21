@@ -5,9 +5,11 @@ import { IoMdAdd } from "react-icons/io";
 import ModalAgregarProductos from './ModalAgregarProductos';
 import { useNotification } from '@/helpers/NotificationContext';
 import MenuOpcionesProducto from './MenuOpcionesProducto';
+import FiltroBusqueda from '../globals/FiltroBusqueda';
 
 const Productos = () => {
     const [arrayProductos, setarrayProductos] = useState([])
+    const [arrayAuxiliar, setarrayAuxiliar] = useState([])
     const [openModal, setopenModal] = useState(false)
     const { showNotification } = useNotification()
     const [updateTable, setupdateTable] = useState(3.1416)
@@ -39,6 +41,7 @@ const Productos = () => {
             const data = await response.json()
 
             setarrayProductos(data)
+            setarrayAuxiliar(data)
         } catch (error) {
             showNotification(error.message, 'error')
         }
@@ -51,7 +54,7 @@ const Productos = () => {
             <div className='float-end mb-5' >
                 <Button color='primary' onClick={() => setopenModal(true)} >Agregar producto <IoMdAdd /></Button>
             </div>
-
+            <FiltroBusqueda arrayAuxiliar={arrayAuxiliar} setArray={setarrayProductos} textoPlaceholder={'Ingresa el nombre del producto'} campoBusqueda={'nombre_producto'} />
             <div className='mt-8' >
                 {
                     loading && <Spinner />
@@ -69,7 +72,7 @@ const Productos = () => {
                         <TableColumn>
                             Cantidad
                         </TableColumn>
-                       
+
                         <TableColumn>
                             Unidad
                         </TableColumn>

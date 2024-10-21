@@ -5,8 +5,6 @@ import React, { useEffect, useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
 
 const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuario }) => {
-    console.log(datosUsuario)
-
     const { showNotification } = useNotification()
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
     const [arrayRoles, setarrayRoles] = useState([])

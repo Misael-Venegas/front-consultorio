@@ -30,12 +30,12 @@ const TablaCumpleanhos = () => {
     }
 
     return (
-        <div className='my-8 min-h-20'>
+        <div className='my-8 '>
             <h4 className='font-bold text-large' >Cumpleaños próximo</h4>
             {
                 loading && <Spinner />
             }
-            {!loading && <Table className='pl-3'  >
+            {!loading && <Table className='pl-3 w-[100%] h-[80%]'   >
                 <TableHeader>
 
                     <TableColumn>#</TableColumn>

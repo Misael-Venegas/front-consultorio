@@ -34,7 +34,7 @@ const CardVentasUsuarioPorDia = () => {
 
     return (
 
-        <Card className="py-4 bg-green-200">
+        <Card className="py-4 bg-green-200 h-[100%]">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <h4 className="font-bold">Usuarios con mayor cantidad de ventas por día</h4>
                 <DatePicker

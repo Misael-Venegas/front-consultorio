@@ -4,7 +4,9 @@ const ItemsMenu = ({ rolUsuario }) => {
     console.log(rolUsuario)
     return (
         <>
-
+            <a href="/agenda" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                Agenda
+            </a>
             {(rolUsuario === 'root' || rolUsuario === 'Administrador') && <>
                 <a href="/usuarios" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                     Usuarios

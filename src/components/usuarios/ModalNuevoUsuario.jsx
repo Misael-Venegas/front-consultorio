@@ -86,8 +86,6 @@ const ModalNuevoUsuario = ({ isOpen, setIsOpen, datosUsuario, setActualizarUsuar
 
     }
 
-
-
     return (
         <Modal
             isOpen={isOpen}

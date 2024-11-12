@@ -4,8 +4,10 @@ import {
     Select, SelectItem, Switch, Autocomplete, AutocompleteItem
 } from '@nextui-org/react'
 import FormPacienteNuevo from './FormPacienteNuevo';
+import { peticionesPost } from '@/helpers/peticionesAPI';
+import { useNotification } from '@/helpers/NotificationContext';
 const ModalNuevaCita = ({ openModal, setOpenModal }) => {
-
+    const { showNotification } = useNotification()
     const [formData, setFormData] = useState(
         {
             fecha: "",
@@ -17,13 +19,13 @@ const ModalNuevaCita = ({ openModal, setOpenModal }) => {
             aPaternoPaciente: "",
             aMaternoPaciente: "",
             telefonoPaciente: "",
-            pacienteNuevo: false
+            pacienteNuevo: false,
+            fechaNacimientoPaciente: ""
         }
     )
     const [error, setError] = useState({}); // Para manejar los errores de cada campo
 
     const handleChange = (field, value) => {
-        console.log(field, value)
         setFormData((prevData) => ({
             ...prevData,
             [field]: value
@@ -36,24 +38,50 @@ const ModalNuevaCita = ({ openModal, setOpenModal }) => {
     const guardarCita = async (e) => {
         e.preventDefault()
         // Verificar si algún campo está vacío
-        const newError = {
-            fecha: !formData.fecha,
-            hora: !formData.hora,
-            motivo: !formData.motivo,
-            idUsuario: !formData.idUsuario,
-            idPaciente: formData.pacienteNuevo ? '' : !formData.idPaciente,
-            nombrePaciente: !formData.pacienteNuevo ? '' : !formData.nombrePaciente,
-            aPaternoPaciente: !formData.pacienteNuevo ? '' : !formData.aPaternoPaciente,
-            telefonoPaciente: !formData.pacienteNuevo ? '' : !formData.telefonoPaciente
-        };
-        setError(newError);
+        try {
+            const newError = {
+                fecha: !formData.fecha,
+                hora: !formData.hora,
+                motivo: !formData.motivo,
+                idUsuario: !formData.idUsuario,
+                idPaciente: formData.pacienteNuevo ? '' : !formData.idPaciente,
+                nombrePaciente: !formData.pacienteNuevo ? '' : !formData.nombrePaciente,
+                aPaternoPaciente: !formData.pacienteNuevo ? '' : !formData.aPaternoPaciente,
+                telefonoPaciente: !formData.pacienteNuevo ? '' : !formData.telefonoPaciente,
+                fechaNacimientoPaciente: !formData.pacienteNuevo ? '' : !formData.fechaNacimientoPaciente
+            };
+            setError(newError);
 
-        // Si hay algún campo vacío, no continuar
-        if (Object.values(newError).some((hasError) => hasError)) {
-            return;
+            // Si hay algún campo vacío, no continuar
+            if (Object.values(newError).some((hasError) => hasError)) {
+                return;
+            }
+            const fechaCitaFormateada = formatearFecha(formData.fecha)
+            const fechaNacimientoClienteFormateada = formatearFecha(formData.fechaNacimientoPaciente)
+
+            formData.fecha = fechaCitaFormateada
+            formData.fechaNacimientoPaciente = fechaNacimientoClienteFormateada
+
+            console.log('Datos de la cita:', formData);
+            const response = await peticionesPost('agendar-cita', true, formData)
+            if (!response.ok) {
+                const dataError = await response.json()
+                throw new Error(dataError.message)
+            }
+            const data = await response.json()
+        } catch (error) {
+            showNotification(error.message, 'error')
         }
 
-        console.log('Datos de la cita:', formData);
+    }
+
+    const formatearFecha = (fecha) => {
+        try {
+
+            return fecha.year + "-" + fecha.month.toString().padStart(2, '0') + "-" + fecha.day.toString().padStart(2, '0')
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     return (

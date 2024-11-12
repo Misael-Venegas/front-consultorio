@@ -1,4 +1,4 @@
-import { Divider, Input } from '@nextui-org/react'
+import { DatePicker, Divider, Input } from '@nextui-org/react'
 import React from 'react'
 
 const FormPacienteNuevo = ({ formData, error, handleChange }) => {
@@ -49,6 +49,21 @@ const FormPacienteNuevo = ({ formData, error, handleChange }) => {
                         minLength={10}
                     ></Input>
                 </div>
+            </div>
+            <div className='flex flex-col md:flex-row'>
+                <div className='w-full md:w-[50%] ml-5 mr-5' >
+                    <span>Fecha de nacimiento</span>
+                    <DatePicker
+                        showMonthAndYearPickers
+                        onChange={(value) => handleChange('fechaNacimientoPaciente', value)}
+                        isRequired
+                        isInvalid={error.fechaNacimientoPaciente ? true : false}
+                        errorMessage={error.fechaNacimientoPaciente && "Este campo es obligatorio"}
+                        color='primary'
+
+                    />
+                </div>
+
             </div>
             <Divider />
         </>

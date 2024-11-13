@@ -1,37 +1,39 @@
 import { Card, CardBody, CardFooter, CardHeader, Divider, Image, Link } from '@nextui-org/react'
 import React from 'react'
 
-const CardCitas = () => {
+const CardCitas = ({ datosConsultas }) => {
     return (
-        <Card>
-            <CardHeader className="flex gap-3">
-                <Image
-                    alt="nextui logo"
-                    height={40}
-                    radius="sm"
-                    src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-                    width={40}
-                />
-                <div className="flex flex-col">
-                    <p className="text-md">NextUI</p>
-                    <p className="text-small text-default-500">nextui.org</p>
-                </div>
-            </CardHeader>
-            <Divider />
-            <CardBody>
-                <p>Make beautiful websites regardless of your design experience.</p>
-            </CardBody>
+        <>
+            {
+                datosConsultas.map(consulta =>
+                    <Card className='mb-5' >
+                        <CardHeader className="flex gap-3 ">
+                            <Image
+                                alt={"nextui logo"}
+                                height={40}
+                                radius="sm"
+                                src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+                                width={40}
+                            />
+                            <div className="flex flex-col">
+                                <p className="text-md">{consulta.paciente}</p>
+                                <p className="text-small text-default-500">{consulta.fecha}</p>
+                            </div>
+                        </CardHeader>
+                        <Divider />
+                        <CardBody>
+                            <p>{consulta.motivo_consulta}</p>
+                        </CardBody>
 
-            <CardFooter>
-                <Link
-                    isExternal
-                    showAnchorIcon
-                    href="https://github.com/nextui-org/nextui"
-                >
-                    Visit source code on GitHub.
-                </Link>
-            </CardFooter>
-        </Card>
+                        <CardFooter>
+                           <p>
+                            Dr. Misaeel Nava Venegas
+                           </p>
+                        </CardFooter>
+                    </Card>
+                )
+            }
+        </>
     )
 }
 

@@ -6,8 +6,10 @@ import {
 import FormPacienteNuevo from './FormPacienteNuevo';
 import { peticionesPost } from '@/helpers/peticionesAPI';
 import { useNotification } from '@/helpers/NotificationContext';
-const ModalNuevaCita = ({ openModal, setOpenModal }) => {
+
+const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards }) => {
     const { showNotification } = useNotification()
+    const [loading, setloading] = useState(false)
     const [formData, setFormData] = useState(
         {
             fecha: "",
@@ -39,6 +41,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal }) => {
         e.preventDefault()
         // Verificar si algún campo está vacío
         try {
+            setloading(true)
             const newError = {
                 fecha: !formData.fecha,
                 hora: !formData.hora,
@@ -62,15 +65,20 @@ const ModalNuevaCita = ({ openModal, setOpenModal }) => {
             formData.fecha = fechaCitaFormateada
             formData.fechaNacimientoPaciente = fechaNacimientoClienteFormateada
 
-            console.log('Datos de la cita:', formData);
             const response = await peticionesPost('agendar-cita', true, formData)
+
             if (!response.ok) {
                 const dataError = await response.json()
                 throw new Error(dataError.message)
             }
-            const data = await response.json()
+
+            showNotification("La cita se agrego de manera correcta", 'success')
+            setActualizarCards(Math.random())
+            setOpenModal(false)
         } catch (error) {
             showNotification(error.message, 'error')
+        } finally {
+            setloading(false)
         }
 
     }
@@ -176,7 +184,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal }) => {
                                 </Select>
                             </div>
                         </div>
-                        <Button className='float-end' type="submit" color="primary"  >Guardar cita</Button>
+                        <Button isLoading={loading} className='float-end' type="submit" color="primary"  >Guardar cita</Button>
                     </form>
                 </ModalBody>
             </ModalContent>

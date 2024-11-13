@@ -2,15 +2,39 @@ import {
     DatePicker, Select, SelectItem, Autocomplete,
     AutocompleteItem, Button
 } from "@nextui-org/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { today, getLocalTimeZone } from "@internationalized/date"
 import { TbEyePlus } from "react-icons/tb";
 import ModalNuevaCita from "./ModalNuevaCita";
 import CardCitas from "./CardCitas";
+import { useNotification } from "@/helpers/NotificationContext";
+import { peticionGet } from "@/helpers/peticionesAPI";
 
 const Agenda = () => {
+    const { showNotification } = useNotification()
     const [fecha, setfecha] = useState(today(getLocalTimeZone()))
     const [nuevaCita, setnuevaCita] = useState(false)
+    const [actualizarCards, setactualizarCards] = useState(3.1416)
+    const [datosConsultas, setDatosConsultas] = useState([])
+    useEffect(() => {
+        obtnerDatosConsultas()
+    }, [actualizarCards])
+
+    const obtnerDatosConsultas = async () => {
+        try {
+            const response = await peticionGet('obtener-citas', true)
+            if (!response.ok) {
+                const dataError = await response.json()
+                throw new Error(dataError.message)
+            }
+            const data = await response.json()
+            setDatosConsultas(data)
+
+        } catch (error) {
+            showNotification(error.message, 'error')
+        }
+    }
+
     return (
         <>
             <div className="flex flex-col md:flex-row" >
@@ -42,9 +66,9 @@ const Agenda = () => {
             </div>
             <div className="mt-10" >
 
-                <CardCitas />
+                <CardCitas datosConsultas={datosConsultas} />
             </div>
-            {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} />}
+            {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} />}
         </>
     )
 }

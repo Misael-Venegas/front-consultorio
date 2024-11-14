@@ -16,8 +16,10 @@ const Agenda = () => {
     const [nuevaCita, setnuevaCita] = useState(false)
     const [actualizarCards, setactualizarCards] = useState(3.1416)
     const [datosConsultas, setDatosConsultas] = useState([])
+    const [arrayEspecialistas, setarrayEspecialistas] = useState([])
     useEffect(() => {
         obtnerDatosConsultas()
+        obtenerEspecialistas()
     }, [actualizarCards])
 
     const obtnerDatosConsultas = async () => {
@@ -30,6 +32,21 @@ const Agenda = () => {
             const data = await response.json()
             setDatosConsultas(data)
 
+        } catch (error) {
+            showNotification(error.message, 'error')
+        }
+    }
+
+    const obtenerEspecialistas = async () => {
+        try {
+            const response = await peticionGet('obtener-especialistas', true)
+            if (!response.ok) {
+                const dataError = await response.json()
+                throw new Error(dataError.message)
+            }
+            const data = await response.json()
+           
+            setarrayEspecialistas(data)
         } catch (error) {
             showNotification(error.message, 'error')
         }
@@ -68,7 +85,7 @@ const Agenda = () => {
 
                 <CardCitas datosConsultas={datosConsultas} />
             </div>
-            {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} />}
+            {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} especialistas={arrayEspecialistas} />}
         </>
     )
 }

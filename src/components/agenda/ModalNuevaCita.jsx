@@ -7,7 +7,7 @@ import FormPacienteNuevo from './FormPacienteNuevo';
 import { peticionesPost } from '@/helpers/peticionesAPI';
 import { useNotification } from '@/helpers/NotificationContext';
 
-const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards }) => {
+const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especialistas }) => {
     const { showNotification } = useNotification()
     const [loading, setloading] = useState(false)
     const [formData, setFormData] = useState(
@@ -180,7 +180,12 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards }) => {
                                     isInvalid={error.idUsuario ? true : false}
                                     errorMessage={error.idUsuario && "Este campo es obligatorio"}
                                 >
-                                    <SelectItem key='id_usuario' >Misael N</SelectItem>
+                                    {
+                                        especialistas?.map(especialista => {
+
+                                           return <SelectItem key={especialista.id} >{especialista.nombre}</SelectItem>
+                                        })
+                                    }
                                 </Select>
                             </div>
                         </div>

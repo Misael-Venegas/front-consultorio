@@ -18,7 +18,9 @@ const CardCitas = ({ datosConsultas }) => {
                                         <FaRegClock /> {consulta.hora}
                                     </div>
                                 </div>
+
                                 <div className='w-full md:w-[80%] mr-5 ml-5 text-start ' >
+                                    <Chip color='secondary' variant='flat' className='float-end' >Pendiente</Chip>
                                     <p className='text-lg text-[#2A84E9]' >
                                         <div className='flex'>
                                             <span className='pt-2 mr-2 text-sm' ><FaUserLarge /></span>   {consulta.paciente}
@@ -30,6 +32,7 @@ const CardCitas = ({ datosConsultas }) => {
                                     <p className='pt-2' >
                                         <Chip color='success' variant='flat' >Dr(a). {consulta.especialista} </Chip>
                                     </p>
+
                                 </div>
                                 <div className='w-full md:w-[10%]' >
                                     <MenuOpciones />

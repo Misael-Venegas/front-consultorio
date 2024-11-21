@@ -6,6 +6,7 @@ import {
 import FormPacienteNuevo from './FormPacienteNuevo';
 import { peticionesPost } from '@/helpers/peticionesAPI';
 import { useNotification } from '@/helpers/NotificationContext';
+import AutoCompleteClientes from './AutoCompleteClientes';
 
 const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especialistas }) => {
     const { showNotification } = useNotification()
@@ -92,6 +93,10 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
         }
     }
 
+    const obtnerPacientes = (e) => {
+        console.log(e)
+    }
+
     return (
         <Modal
             size='4xl'
@@ -121,12 +126,15 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                         {
                             !formData.pacienteNuevo && <div className='flex flex-col md:flex-row'>
                                 <div className='w-full md:w-[50%] ml-5 mr-5' >
-                                    <Autocomplete
+                                    { /* <Autocomplete
                                         value={formData.idPaciente}
                                         isRequired
                                         isInvalid={error.idPaciente ? true : false}
                                         errorMessage={error.idPaciente && "Este campo es obligatorio"}
+                                        onChange={(e) => obtnerPacientes(e.target.value)}
                                     ></Autocomplete>
+                                    */}
+                                    <AutoCompleteClientes />
                                 </div>
 
                             </div>
@@ -183,7 +191,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                                     {
                                         especialistas?.map(especialista => {
 
-                                           return <SelectItem key={especialista.id} >{especialista.nombre}</SelectItem>
+                                            return <SelectItem key={especialista.id} >{especialista.nombre}</SelectItem>
                                         })
                                     }
                                 </Select>

@@ -47,7 +47,7 @@ const SelectProductos = ({ setProducto, producto }) => {
                 className='pt-3'
                 placeholder="Ingrese el nombre del producto o el código de barras"
                 onChange={(e) => obtenerProductos(e.target.value)}
-                value={producto?.nombre_producto}
+                //value={producto?.nombre_producto}
             />
 
             {

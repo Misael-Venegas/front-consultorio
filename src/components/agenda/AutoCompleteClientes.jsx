@@ -7,6 +7,11 @@ const AutoCompleteClientes = () => {
     const { showNotification } = useNotification()
     const [listaPacientes, setListaPacientes] = useState([])
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+    const handleChange = (e) => {
+        console.log(e)
+    }
+
     const filtrarPacientes = async (e) => {
         if (e !== '') {
             try {
@@ -46,7 +51,7 @@ const AutoCompleteClientes = () => {
                                 onClick={() => seleccionarPaciente(paciente)}
                                 className="p-2 cursor-pointer hover:bg-gray-200"
                             >
-                                <span> {paciente.nombre}</span>
+                                <span onClick={()=> handleChange(paciente)} > {paciente.nombre}</span>
                             </div>
                         ))
                     }

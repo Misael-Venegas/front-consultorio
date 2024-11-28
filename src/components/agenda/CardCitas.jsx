@@ -4,8 +4,8 @@ import { FaUserLarge } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
 import MenuOpciones from './MenuOpciones';
 
-const CardCitas = ({ datosConsultas }) => {
-    console.log(datosConsultas)
+const CardCitas = ({ datosConsultas, setActualizarCita}) => {
+
     return (
         <>
             {
@@ -35,7 +35,7 @@ const CardCitas = ({ datosConsultas }) => {
 
                                 </div>
                                 <div className='w-full md:w-[10%]' >
-                                    <MenuOpciones />
+                                    <MenuOpciones cita={consulta}  setActualizarTabla={setActualizarCita}/>
                                 </div>
                             </div>
                         </CardBody>

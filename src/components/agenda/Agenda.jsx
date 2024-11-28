@@ -20,11 +20,11 @@ const Agenda = () => {
     useEffect(() => {
         obtnerDatosConsultas()
         obtenerEspecialistas()
-    }, [actualizarCards])
+    }, [actualizarCards, fecha])
 
     const obtnerDatosConsultas = async () => {
         try {
-            const response = await peticionGet('obtener-citas', true)
+            const response = await peticionGet(`obtener-citas/${fecha}`, true)
             if (!response.ok) {
                 const dataError = await response.json()
                 throw new Error(dataError.message)
@@ -45,7 +45,7 @@ const Agenda = () => {
                 throw new Error(dataError.message)
             }
             const data = await response.json()
-           
+
             setarrayEspecialistas(data)
         } catch (error) {
             showNotification(error.message, 'error')
@@ -83,11 +83,11 @@ const Agenda = () => {
             </div>
             <div className="mt-10" >
 
-                <CardCitas datosConsultas={datosConsultas} />
+                <CardCitas datosConsultas={datosConsultas} setActualizarCita={setactualizarCards} />
             </div>
             {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} especialistas={arrayEspecialistas} />}
         </>
     )
 }
 
-export default Agenda
+export default Agenda 

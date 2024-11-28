@@ -17,7 +17,6 @@ const MenuOpcionesProducto = ({ datosProducto, setUpdateProducto }) => {
     const eliminarProducto = async () => {
         try {
 
-            console.log('Se elimina ', datosProducto.id)
             const token = sessionStorage.getItem('token')
             const urlAPI = process.env.NEXT_PUBLIC_API_URL
          

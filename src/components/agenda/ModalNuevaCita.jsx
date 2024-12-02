@@ -60,6 +60,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
             if (Object.values(newError).some((hasError) => hasError)) {
                 return;
             }
+            
             const fechaCitaFormateada = formatearFecha(formData.fecha)
             const fechaNacimientoClienteFormateada = formatearFecha(formData.fechaNacimientoPaciente)
 
@@ -125,7 +126,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                         }
                         {
                             !formData.pacienteNuevo && <div className='flex flex-col md:flex-row'>
-                                <div className='w-full md:w-[50%] ml-5 mr-5' >
+                                <div className='w-full md:w-[100%] ml-5 mr-5' >
                                     { /* <Autocomplete
                                         value={formData.idPaciente}
                                         isRequired
@@ -134,7 +135,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                                         onChange={(e) => obtnerPacientes(e.target.value)}
                                     ></Autocomplete>
                                     */}
-                                    <AutoCompleteClientes />
+                                    <AutoCompleteClientes formData={formData} error={error} handleChange={handleChange} />
                                 </div>
 
                             </div>

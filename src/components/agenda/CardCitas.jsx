@@ -4,7 +4,7 @@ import { FaUserLarge } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
 import MenuOpciones from './MenuOpciones';
 
-const CardCitas = ({ datosConsultas, setActualizarCita}) => {
+const CardCitas = ({ datosConsultas, setActualizarCita }) => {
 
     return (
         <>
@@ -20,7 +20,7 @@ const CardCitas = ({ datosConsultas, setActualizarCita}) => {
                                 </div>
 
                                 <div className='w-full md:w-[80%] mr-5 ml-5 text-start ' >
-                                    <Chip color='secondary' variant='flat' className='float-end' >Pendiente</Chip>
+                                    <Chip color={consulta?.estado == 1 ? 'secondary' : 'success'} variant='flat' className='float-end' > {consulta?.estado == 1 ? 'Pendiente' : 'Concluida'} </Chip>
                                     <p className='text-lg text-[#2A84E9]' >
                                         <div className='flex'>
                                             <span className='pt-2 mr-2 text-sm' ><FaUserLarge /></span>   {consulta.paciente}
@@ -35,7 +35,10 @@ const CardCitas = ({ datosConsultas, setActualizarCita}) => {
 
                                 </div>
                                 <div className='w-full md:w-[10%]' >
-                                    <MenuOpciones cita={consulta}  setActualizarTabla={setActualizarCita}/>
+                                    {
+                                        consulta?.estado == 1 ? <MenuOpciones cita={consulta} setActualizarTabla={setActualizarCita} /> : ""
+                                    }
+
                                 </div>
                             </div>
                         </CardBody>

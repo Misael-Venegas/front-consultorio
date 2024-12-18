@@ -3,7 +3,7 @@ import { peticionGet } from '@/helpers/peticionesAPI'
 import { Input, Card } from '@nextui-org/react'
 import React, { useState } from 'react'
 
-const AutoCompleteClientes = ({ setIdPaciente, setArrayDatos }) => {
+const AutoCompleteClientes = ({ setArrayDatos, obtenerConsultasPorFecha }) => {
     const { showNotification } = useNotification()
     const [listaPacientes, setListaPacientes] = useState([])
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -29,14 +29,17 @@ const AutoCompleteClientes = ({ setIdPaciente, setArrayDatos }) => {
                 showNotification(error.message, 'error')
             }
 
+        } else {
+            obtenerConsultasPorFecha()
+
+            setIsDropdownVisible(false)
         }
     }
     const seleccionarPaciente = async (paciente) => {
         try {
-
             setIsDropdownVisible(false)
             setnombre(paciente?.nombre + ' ' + paciente?.apaterno + ' ' + paciente?.amaterno)
-            setIdPaciente(paciente.id)
+
 
             const response = await peticionGet(`obtener-citas-por-usuario/${paciente.id}`, true)
 
@@ -45,9 +48,9 @@ const AutoCompleteClientes = ({ setIdPaciente, setArrayDatos }) => {
                 throw new Error(dataError.message)
             }
             const data = await response.json()
-            console.log(data)
+
             setArrayDatos(data)
-            setIsDropdownVisible(true)
+            setIsDropdownVisible(false)
 
         } catch (error) {
             showNotification(error.message, 'error')

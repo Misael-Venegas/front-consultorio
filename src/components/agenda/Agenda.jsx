@@ -19,12 +19,13 @@ const Agenda = () => {
     const [actualizarCards, setactualizarCards] = useState(3.1416)
     const [datosConsultas, setDatosConsultas] = useState([])
     const [arrayEspecialistas, setarrayEspecialistas] = useState([])
-    const [idPaciente, setidPaciente] = useState("")
+    // const [idPaciente, setidPaciente] = useState("")
+
     useEffect(() => {
         obtnerDatosConsultas()
         obtenerEspecialistas()
     }, [actualizarCards, fecha])
-    console.log(idPaciente)
+
     const obtnerDatosConsultas = async () => {
         try {
             const response = await peticionGet(`obtener-citas/${fecha}`, true)
@@ -56,7 +57,12 @@ const Agenda = () => {
     }
 
     const filtrarCitasPorEspecialista = async (e) => {
+
         try {
+            if (e.target.value == "") {
+                obtnerDatosConsultas()
+                return
+            }
             const response = await peticionGet(`obtener-citas-por-especialista/${e.target.value}`, true)
             if (!response.ok) {
                 const dataError = await response.json()
@@ -100,7 +106,7 @@ const Agenda = () => {
                 </div>
                 <div className="w-full md:w-[25%]  mr-5" >
                     <span>Nombre del paciente</span>
-                    <AutoCompleteClientes setIdPaciente={setidPaciente} setArrayDatos={setDatosConsultas} />
+                    <AutoCompleteClientes setArrayDatos={setDatosConsultas} obtenerConsultasPorFecha={obtnerDatosConsultas} />
                 </div>
                 <div className="w-full md:w-[25%]" >
                     <Button onClick={() => setnuevaCita(true)} color="primary" className="mt-6 float-end " endContent={<TbEyePlus />} >Agregar cita</Button>

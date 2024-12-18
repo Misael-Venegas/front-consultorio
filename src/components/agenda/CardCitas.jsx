@@ -4,8 +4,7 @@ import { FaUserLarge } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
 import MenuOpciones from './MenuOpciones';
 
-const CardCitas = ({ datosConsultas, setActualizarCita }) => {
-
+const CardCitas = ({ datosConsultas, setActualizarCita, especialistas }) => {
     return (
         <>
             {
@@ -15,7 +14,9 @@ const CardCitas = ({ datosConsultas, setActualizarCita }) => {
                             <div className='flex flex-col md:flex-row' >
                                 <div className='w-full md:w-[10%] mr-5 ml-5' >
                                     <div className='text-lg ' >
-                                        <FaRegClock /> {consulta.hora}
+                                        <FaRegClock />
+                                        {consulta.fecha} <br />
+                                        {consulta.hora}
                                     </div>
                                 </div>
 
@@ -36,14 +37,12 @@ const CardCitas = ({ datosConsultas, setActualizarCita }) => {
                                 </div>
                                 <div className='w-full md:w-[10%]' >
                                     {
-                                        consulta?.estado == 1 ? <MenuOpciones cita={consulta} setActualizarTabla={setActualizarCita} /> : ""
+                                        consulta?.estado == 1 ? <MenuOpciones cita={consulta} setActualizarTabla={setActualizarCita} especialistas={especialistas} /> : ""
                                     }
 
                                 </div>
                             </div>
                         </CardBody>
-
-
                     </Card>
                 )
             }

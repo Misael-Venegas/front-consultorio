@@ -106,7 +106,7 @@ const Agenda = () => {
             </div>
             <div className="mt-10" >
 
-                <CardCitas datosConsultas={datosConsultas} setActualizarCita={setactualizarCards} />
+                <CardCitas datosConsultas={datosConsultas} setActualizarCita={setactualizarCards} especialistas={arrayEspecialistas} />
             </div>
             {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} especialistas={arrayEspecialistas} />}
         </>

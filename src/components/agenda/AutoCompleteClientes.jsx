@@ -26,7 +26,7 @@ const AutoCompleteClientes = ({ formData, error, handleChange }) => {
 
                 setListaPacientes(data)
                 setIsDropdownVisible(true)
-                //  console.log(data)
+            
             } catch (error) {
                 showNotification(error.message, 'error')
             }

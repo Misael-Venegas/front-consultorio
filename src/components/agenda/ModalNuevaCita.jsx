@@ -60,7 +60,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
             if (Object.values(newError).some((hasError) => hasError)) {
                 return;
             }
-            
+
             const fechaCitaFormateada = formatearFecha(formData.fecha)
             const fechaNacimientoClienteFormateada = formatearFecha(formData.fechaNacimientoPaciente)
 
@@ -90,13 +90,11 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
 
             return fecha.year + "-" + fecha.month.toString().padStart(2, '0') + "-" + fecha.day.toString().padStart(2, '0')
         } catch (error) {
-            console.log(error.message)
+            showNotification(error.message, 'error')
+
         }
     }
 
-    const obtnerPacientes = (e) => {
-        console.log(e)
-    }
 
     return (
         <Modal
@@ -127,7 +125,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                         {
                             !formData.pacienteNuevo && <div className='flex flex-col md:flex-row'>
                                 <div className='w-full md:w-[100%] ml-5 mr-5' >
-                              
+
                                     <AutoCompleteClientes formData={formData} error={error} handleChange={handleChange} />
                                 </div>
 

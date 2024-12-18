@@ -46,7 +46,6 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
             if (Object.values(newError).some((hasError) => hasError)) {
                 return;
             }
-            console.log(formData)
 
 
             const fechaCitaFormateada = formatearFecha(formData.fecha)
@@ -69,10 +68,9 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
 
     const formatearFecha = (fecha) => {
         try {
-            console.log(fecha)
             return fecha.year + "-" + fecha.month.toString().padStart(2, '0') + "-" + fecha.day.toString().padStart(2, '0')
         } catch (error) {
-            console.log(error.message)
+            showNotification(error.message, 'error')
         }
     }
 

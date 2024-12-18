@@ -85,7 +85,7 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
 
 
             <ModalContent>
-                <ModalHeader>Editar cita - {cita.paciente}</ModalHeader>
+                <ModalHeader>Editar cita - {cita.paciente} - {cita.fecha}</ModalHeader>
                 <ModalBody>
                     <form className='space-y-4' onSubmit={editarCita} >
                         <div className='flex flex-col md:flex-row' >

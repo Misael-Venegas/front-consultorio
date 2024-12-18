@@ -9,6 +9,7 @@ import ModalNuevaCita from "./ModalNuevaCita";
 import CardCitas from "./CardCitas";
 import { useNotification } from "@/helpers/NotificationContext";
 import { peticionGet } from "@/helpers/peticionesAPI";
+import AutoCompleteClientes from "@/helpers/AutocompleteClientes";
 
 const Agenda = () => {
     const { showNotification } = useNotification()
@@ -18,11 +19,12 @@ const Agenda = () => {
     const [actualizarCards, setactualizarCards] = useState(3.1416)
     const [datosConsultas, setDatosConsultas] = useState([])
     const [arrayEspecialistas, setarrayEspecialistas] = useState([])
+    const [idPaciente, setidPaciente] = useState("")
     useEffect(() => {
         obtnerDatosConsultas()
         obtenerEspecialistas()
     }, [actualizarCards, fecha])
-
+    console.log(idPaciente)
     const obtnerDatosConsultas = async () => {
         try {
             const response = await peticionGet(`obtener-citas/${fecha}`, true)
@@ -52,6 +54,7 @@ const Agenda = () => {
             showNotification(error.message, 'error')
         }
     }
+
     const filtrarCitasPorEspecialista = async (e) => {
         try {
             const response = await peticionGet(`obtener-citas-por-especialista/${e.target.value}`, true)
@@ -66,6 +69,7 @@ const Agenda = () => {
             showNotification(error.message, 'error')
         }
     }
+
     return (
         <>
             <div className="flex flex-col md:flex-row" >
@@ -96,9 +100,7 @@ const Agenda = () => {
                 </div>
                 <div className="w-full md:w-[25%]  mr-5" >
                     <span>Nombre del paciente</span>
-                    <Autocomplete
-                        placeholder="Nombre del paciente"
-                    ></Autocomplete>
+                    <AutoCompleteClientes setIdPaciente={setidPaciente} setArrayDatos={setDatosConsultas} />
                 </div>
                 <div className="w-full md:w-[25%]" >
                     <Button onClick={() => setnuevaCita(true)} color="primary" className="mt-6 float-end " endContent={<TbEyePlus />} >Agregar cita</Button>

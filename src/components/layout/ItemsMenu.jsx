@@ -1,13 +1,15 @@
 import React from 'react'
 
 const ItemsMenu = ({ rolUsuario }) => {
-    console.log(rolUsuario)
+    // console.log(rolUsuario)
     return (
         <>
-            <a href="/agenda" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
-                Agenda
-            </a>
-            {(rolUsuario === 'root' || rolUsuario === 'Administrador') && <>
+            {(rolUsuario === 'root' || rolUsuario === 'Administrador' || rolUsuario === 'Gerente' || rolUsuario === 'Recepcionista') &&
+                <a href="/agenda" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
+                    Agenda
+                </a>
+
+            } {(rolUsuario === 'root' || rolUsuario === 'Administrador') && <>
                 <a href="/usuarios" className='text-white hover:bg-white hover:text-[#1D94CC] rounded-lg p-2' >
                     Usuarios
                 </a>

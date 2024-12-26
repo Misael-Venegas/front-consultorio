@@ -1,3 +1,4 @@
+import { calcularEdad, formatearFecha } from '@/helpers/globals'
 import { useNotification } from '@/helpers/NotificationContext'
 import { peticionGet } from '@/helpers/peticionesAPI'
 import { Input, Card } from '@nextui-org/react'
@@ -26,7 +27,7 @@ const AutoCompleteClientes = ({ formData, error, handleChange }) => {
 
                 setListaPacientes(data)
                 setIsDropdownVisible(true)
-            
+
             } catch (error) {
                 showNotification(error.message, 'error')
             }
@@ -67,13 +68,15 @@ const AutoCompleteClientes = ({ formData, error, handleChange }) => {
             }
             {
                 nombre && <> <div className='flex flex-col md:flex-row pt-5' >
-                    <div className='w-full md:w-[50%] ml-5 mr-5' > {nombre} </div>
-                    <div className='w-full md:w-[50%] ml-5 mr-5' > {fechaNacimiento} </div>
+                    <div className='w-full md:w-[50%] ml-5 mr-5' > <b>Nombre:</b>  {nombre} </div>
+                    <div className='w-full md:w-[50%] ml-5 mr-5' > <b>Fecha de nacimiento:</b> {formatearFecha(fechaNacimiento)} </div>
                 </div>
                     <div className='flex flex-col md:flex-row mt-5'>
                         <div className='w-full md:w-[50%] ml-5 mr-5' >
-
-                            {telefono}
+                            <b>Teléfono:</b> {telefono}
+                        </div>
+                        <div className='w-full md:w-[50%] ml-5 mr-5' >
+                            <b>Edad:</b> {calcularEdad(fechaNacimiento)}
                         </div>
                     </div>
                 </>

@@ -10,54 +10,54 @@ import { useNotification } from '@/helpers/NotificationContext'
 const Ventas = () => {
 
     //Este codigo se usa solo para ver el nombre de las impresoras disponibles
-    
-   /* useEffect(() => {
-        // Cargar el script de QZ Tray al montar el componente
-        const loadQZTrayScript = () => {
-            const script = document.createElement('script');
-            script.src = '/js/qz-tray.js';
-            script.async = true;
-            script.onload = () => {
-                console.log('QZ Tray script loaded');
-                initializeQZ();
-            };
-            script.onerror = () => console.log('Error al cargar el script de QZ Tray');
-            document.body.appendChild(script);
-        };
 
-        const initializeQZ = async () => {
-            try {
-                // Asegúrate de que el script de QZ se cargue antes de acceder a `qz`
-                if (window.qz) {
-                    // Conectar a QZ Tray
-                    await window.qz.websocket.connect();
-
-                    // Obtener la lista de impresoras
-                    const impresorasDisponibles = await window.qz.printers.find();
-                    console.log(impresorasDisponibles);
-                } else {
-                    setError('QZ Tray no está disponible.');
-                }
-            } catch (e) {
-                setError('Error al inicializar QZ Tray: ' + e.message);
-            }
-        };
-
-        // Cargar el script si no está ya cargado
-        if (!window.qz) {
-            loadQZTrayScript();
-        } else {
-            initializeQZ();
-        }
-
-        // Desconectar de QZ Tray cuando el componente se desmonte
-        return () => {
-            if (window.qz) {
-                window.qz.websocket.disconnect();
-            }
-        };
-    }, []);
-*/ 
+    /* useEffect(() => {
+         // Cargar el script de QZ Tray al montar el componente
+         const loadQZTrayScript = () => {
+             const script = document.createElement('script');
+             script.src = '/js/qz-tray.js';
+             script.async = true;
+             script.onload = () => {
+                 console.log('QZ Tray script loaded');
+                 initializeQZ();
+             };
+             script.onerror = () => console.log('Error al cargar el script de QZ Tray');
+             document.body.appendChild(script);
+         };
+ 
+         const initializeQZ = async () => {
+             try {
+                 // Asegúrate de que el script de QZ se cargue antes de acceder a `qz`
+                 if (window.qz) {
+                     // Conectar a QZ Tray
+                     await window.qz.websocket.connect();
+ 
+                     // Obtener la lista de impresoras
+                     const impresorasDisponibles = await window.qz.printers.find();
+                     console.log(impresorasDisponibles);
+                 } else {
+                     setError('QZ Tray no está disponible.');
+                 }
+             } catch (e) {
+                 setError('Error al inicializar QZ Tray: ' + e.message);
+             }
+         };
+ 
+         // Cargar el script si no está ya cargado
+         if (!window.qz) {
+             loadQZTrayScript();
+         } else {
+             initializeQZ();
+         }
+ 
+         // Desconectar de QZ Tray cuando el componente se desmonte
+         return () => {
+             if (window.qz) {
+                 window.qz.websocket.disconnect();
+             }
+         };
+     }, []);
+ */
 
     const { showNotification } = useNotification()
     const [listaProductos, setlistaProductos] = useState([])
@@ -154,7 +154,7 @@ const Ventas = () => {
                 <div className='w-full md:w-[40%] mr-10 ml-10' >
 
                     <Divider className='mt-24' />
-                    <InformacionVenta total={totalVenta} listaProductos={listaProductos} limpiarCampos={deleteProductFromSearchView} />
+                    <InformacionVenta total={totalVenta} listaProductos={listaProductos} limpiarCampos={deleteProductFromSearchView} setTotal={settotalVenta} />
                 </div>
 
             </div>

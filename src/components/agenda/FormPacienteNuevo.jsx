@@ -1,7 +1,15 @@
+import { calcularEdad } from '@/helpers/globals'
 import { DatePicker, Divider, Input } from '@nextui-org/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const FormPacienteNuevo = ({ formData, error, handleChange }) => {
+    const [fechaNacieminto, setFechaNacieminto] = useState(null)
+
+    const enviarFecha = (e) => {
+        setFechaNacieminto(e.year + '-' + e.month + '-' + e.day)
+        handleChange('fechaNacimientoPaciente', e)
+    }
+    console.log(fechaNacieminto)
     return (
         <>
             <Divider />
@@ -55,7 +63,7 @@ const FormPacienteNuevo = ({ formData, error, handleChange }) => {
                     <span>Fecha de nacimiento</span>
                     <DatePicker
                         showMonthAndYearPickers
-                        onChange={(value) => handleChange('fechaNacimientoPaciente', value)}
+                        onChange={(value) => enviarFecha(value)}
                         isRequired
                         isInvalid={error.fechaNacimientoPaciente ? true : false}
                         errorMessage={error.fechaNacimientoPaciente && "Este campo es obligatorio"}
@@ -63,6 +71,12 @@ const FormPacienteNuevo = ({ formData, error, handleChange }) => {
 
                     />
                 </div>
+                {
+                    fechaNacieminto && <div className='w-full md:w-[50%] ml-5 mr-5 pt-8' >
+
+                        <b> Edad: {calcularEdad(fechaNacieminto)} años</b>
+                    </div>
+                }
 
             </div>
             <Divider />

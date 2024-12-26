@@ -5,7 +5,7 @@ import ModalCodigoVendedor from './ModalCodigoVendedor'
 import { useNotification } from '@/helpers/NotificationContext'
 import { imprimirTicket } from '@/helpers/imprimirTicketDeVenta'
 
-const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
+const InformacionVenta = ({ total, listaProductos, limpiarCampos, setTotal }) => {
 
     const { showNotification } = useNotification()
     const [openModal, setOpenModal] = useState(false)
@@ -88,13 +88,15 @@ const InformacionVenta = ({ total, listaProductos, limpiarCampos }) => {
     }
 
 
-
-    console.log(imprimirTicketVenta)
-
     return (
         <>
-            <div className='text-3xl pt-2' >
-                <b>Total: ${total}</b>
+            <div className='text-3xl pt-2 flex flex-col md:flex-row' >
+                <div className='w-full md:w-[25%] ' >
+                    <b>Total: $</b>
+                </div>
+                <div className='w-full md:w-[75%] ' >
+                    <Input width={50} value={total} onChange={(e)=> setTotal(e.target.value) } />
+                </div>
             </div>
             {listaProductos.length > 0 && <>
                 < div className='pt-5' >

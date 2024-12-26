@@ -131,6 +131,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
 
                             </div>
                         }
+                        <p className='text-center text-xl'>-- Datos de la cita --</p>
                         <div className='flex flex-col md:flex-row' >
 
                             <div className='w-full md:w-[50%] ml-5 mr-5 ' >

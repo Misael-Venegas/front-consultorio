@@ -24,4 +24,36 @@ const obtenerAnhios = () => {
 
 const listaAnhos = obtenerAnhios()
 
-module.exports = { meses, listaAnhos }
+const formatearFecha = (date) => {
+    try {
+        let fecha = date ? new Date(date) : new Date()
+        const formatoFecha = fecha.getDate().toString().padStart(2, '0') + "-" + (fecha.getMonth() + 1).toString().padStart(2, '0') + "-" + fecha.getFullYear()
+        return formatoFecha
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
+const calcularEdad = (fechaNacimiento) => {
+    if (!fechaNacimiento) return null; // Validar entrada
+
+    const fechaActual = new Date();
+    const fechaNacimientoUsuario = new Date(fechaNacimiento);
+
+    // Calcular edad base
+    let edad = fechaActual.getFullYear() - fechaNacimientoUsuario.getFullYear();
+
+    // Verificar si el cumpleaños ya ocurrió este año
+    const mesActual = fechaActual.getMonth();
+    const diaActual = fechaActual.getDate();
+    const mesNacimiento = fechaNacimientoUsuario.getMonth();
+    const diaNacimiento = fechaNacimientoUsuario.getDate();
+
+    if (mesActual < mesNacimiento || (mesActual === mesNacimiento && diaActual < diaNacimiento)) {
+        edad--;
+    }
+
+    return edad;
+};
+
+module.exports = { meses, listaAnhos, formatearFecha, calcularEdad }

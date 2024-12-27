@@ -5,6 +5,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ErrorAlert from '../globals/ErrorAlert';
 import { useRouter } from 'next/navigation'
 import ModalRecuperarContrasenha from './ModalRecuperarContrasenha';
+import jwt from 'jsonwebtoken'
 
 const Login = () => {
     const router = useRouter()
@@ -50,13 +51,22 @@ const Login = () => {
 
             const data = await response.json()
             if (data.token) {
+
                 sessionStorage.setItem('token', data.token)
-                router.push('/productos')
+                const { rol } = jwt.decode(data.token)
+                console.log(rol)
+                if (rol == "Especialista") {
+                    router.push('/agenda')
+                } else if (rol == 'Administrador') {
+                    router.push('/inicio')
+                } else {
+                    router.push('/productos')
+                }
             } else {
                 throw new Error('Error al inciar sesión (token)')
             }
         } catch (error) {
-            
+
             setloading(false)
             setMesgError(error.message)
         }
@@ -88,7 +98,7 @@ const Login = () => {
                         onChange={(e) => setcontrasenha(e.target.value)}
 
                     />
-                    <Button isLoading={loading} color='primary' style={{ width: '100%' }} onClick={() => logIn()}  >  Iniciar Sesión</Button>
+                    <Button isLoading={loading} color='primary' style={{ width: '100%' }} onClick={() => logIn()}>  Iniciar Sesión</Button>
                     {
                         mesgError != '' && <ErrorAlert mensaje={mesgError} />
                     }

@@ -11,4 +11,9 @@ function validarToken() {
     }
 }
 
-module.exports = { validarToken }
+function desestructurarToken() {
+    const token = sessionStorage.getItem('token')
+    return jwt.decode(token)
+}
+
+module.exports = { validarToken, desestructurarToken }

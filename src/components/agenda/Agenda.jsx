@@ -10,7 +10,7 @@ import CardCitas from "./CardCitas";
 import { useNotification } from "@/helpers/NotificationContext";
 import { peticionGet } from "@/helpers/peticionesAPI";
 import AutoCompleteClientes from "@/helpers/AutocompleteClientes";
-
+import { desestructurarToken } from "@/helpers/tokenValidation"
 const Agenda = () => {
     const { showNotification } = useNotification()
     const [fecha, setfecha] = useState(today(getLocalTimeZone()))
@@ -19,11 +19,13 @@ const Agenda = () => {
     const [actualizarCards, setactualizarCards] = useState(3.1416)
     const [datosConsultas, setDatosConsultas] = useState([])
     const [arrayEspecialistas, setarrayEspecialistas] = useState([])
-    // const [idPaciente, setidPaciente] = useState("")
-
+    const [rolUsuario, setRolUsuario] = useState('')
     useEffect(() => {
         obtnerDatosConsultas()
         obtenerEspecialistas()
+        const { rol } = desestructurarToken()
+        console.log(rol)
+        setRolUsuario(rol)
     }, [actualizarCards, fecha])
 
     const obtnerDatosConsultas = async () => {

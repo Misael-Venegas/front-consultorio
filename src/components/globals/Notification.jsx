@@ -1,6 +1,7 @@
 // src/components/globals/Notification.jsx
 "use client";
 import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { useNotification } from '@/helpers/NotificationContext';
 
 const Notification = () => {
@@ -16,13 +17,21 @@ const Notification = () => {
     }, [notification, hideNotification]);
 
     if (!notification.message) return null;
-    return (
+
+    // Contenido de la notificación
+    const notificationContent = (
         <div
-            className={`fixed top-4 right-4 z-50 p-4 rounded shadow-lg transition-opacity duration-300 ease-in-out ${notification.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+            className={`fixed top-0 left-0 w-full z-[9999] p-4 text-center rounded shadow-lg transition-opacity duration-300 ease-in-out ${notification.type === 'success'
+                    ? 'bg-green-500 text-white'
+                    : 'bg-red-500 text-white'
+                }`}
         >
             {notification.message}
         </div>
     );
+
+    // Renderización en el body para asegurar que esté sobre todos los componentes
+    return ReactDOM.createPortal(notificationContent, document.body);
 };
 
 export default Notification;

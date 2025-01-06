@@ -1,6 +1,7 @@
 import {
     DatePicker, Select, SelectItem, Autocomplete,
-    AutocompleteItem, Button
+    AutocompleteItem, Button,
+    Chip
 } from "@nextui-org/react"
 import { useEffect, useState } from "react"
 import { today, getLocalTimeZone } from "@internationalized/date"
@@ -23,9 +24,10 @@ const Agenda = () => {
     useEffect(() => {
         obtnerDatosConsultas()
         obtenerEspecialistas()
-        const { rol } = desestructurarToken()
+        const { rol, nombre, a_paterno, a_materno } = desestructurarToken()
         console.log(rol)
         setRolUsuario(rol)
+        setnombreEspecialista(nombre + ' ' + a_paterno + ' ' + a_materno)
     }, [actualizarCards, fecha])
 
     const obtnerDatosConsultas = async () => {
@@ -92,7 +94,7 @@ const Agenda = () => {
                 </div>
                 <div className="w-full md:w-[25%]  mr-5 " >
                     <span>Especialista</span>
-                    <Select
+                    {rolUsuario !== 'Especialista' ? <Select
                         size="md"
                         placeholder="Nombre especialista"
                         onChange={(e) => filtrarCitasPorEspecialista(e)}
@@ -104,7 +106,7 @@ const Agenda = () => {
                                 </SelectItem>
                             })
                         }
-                    </Select>
+                    </Select> : <> <br /> <Chip variant="shadow" className="mt-2" color="primary" radius="sm" >{nombreEspecialista}</Chip> </>}
                 </div>
                 <div className="w-full md:w-[25%]  mr-5" >
                     <span>Nombre del paciente</span>

@@ -8,7 +8,7 @@ import { peticionesPost } from '@/helpers/peticionesAPI';
 import { useNotification } from '@/helpers/NotificationContext';
 import AutoCompleteClientes from './AutoCompleteClientes';
 
-const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especialistas }) => {
+const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especialistas, id, rol }) => {
     const { showNotification } = useNotification()
     const [loading, setloading] = useState(false)
     const [formData, setFormData] = useState(
@@ -16,7 +16,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
             fecha: "",
             hora: "",
             motivo: "",
-            idUsuario: "",
+            idUsuario: rol == "Especialista" ? id : "",
             idPaciente: "",
             nombrePaciente: "",
             aPaternoPaciente: "",
@@ -173,7 +173,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                         <div className='flex flex-col md:flex-row' >
                             <div className='w-full md:w-[50%] ml-5 mr-5' >
                                 <span>Especialista</span> <span style={{ color: 'red' }} >*</span>
-                                <Select
+                                {rol == "Especialista" ? especialistas : <Select
                                     placeholder='Selecciona un especialista'
                                     value={formData.idUsuario}
                                     onChange={(value) => handleChange('idUsuario', value.target.value)}
@@ -187,7 +187,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                                             return <SelectItem key={especialista.id} >{especialista.nombre}</SelectItem>
                                         })
                                     }
-                                </Select>
+                                </Select>}
                             </div>
                         </div>
                         <Button isLoading={loading} className='float-end' type="submit" color="primary"  >Guardar cita</Button>

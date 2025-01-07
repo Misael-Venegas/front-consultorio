@@ -19,7 +19,7 @@ export const imprimirTicket = async (total, listaDeProductos, metodoPago) => {
                 type: 'pixel',
                 format: 'image', //'pdf'
                 flavor: 'file',
-                data: '/assets/Images/eyeconic_2.png'
+                data: '/assets/Images/eyeconic_2.jpg'
             }]
         // Enviar el ticket para impresión
         await window.qz.print(config, data);

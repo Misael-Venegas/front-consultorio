@@ -21,13 +21,15 @@ const Agenda = () => {
     const [datosConsultas, setDatosConsultas] = useState([])
     const [arrayEspecialistas, setarrayEspecialistas] = useState([])
     const [rolUsuario, setRolUsuario] = useState('')
+    const [idUsuario, setIdUsuario] = useState('')
     useEffect(() => {
         obtnerDatosConsultas()
         obtenerEspecialistas()
-        const { rol, nombre, a_paterno, a_materno } = desestructurarToken()
-        console.log(rol)
+        const { id, rol, nombre, a_paterno, a_materno } = desestructurarToken()
+        // console.log(rol)
         setRolUsuario(rol)
         setnombreEspecialista(nombre + ' ' + a_paterno + ' ' + a_materno)
+        setIdUsuario(id)
     }, [actualizarCards, fecha])
 
     const obtnerDatosConsultas = async () => {
@@ -120,7 +122,7 @@ const Agenda = () => {
 
                 <CardCitas datosConsultas={datosConsultas} setActualizarCita={setactualizarCards} especialistas={arrayEspecialistas} />
             </div>
-            {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} especialistas={arrayEspecialistas} />}
+            {nuevaCita && <ModalNuevaCita openModal={nuevaCita} setOpenModal={setnuevaCita} setActualizarCards={setactualizarCards} especialistas={arrayEspecialistas} id={idUsuario} rol={rolUsuario} />}
         </>
     )
 }

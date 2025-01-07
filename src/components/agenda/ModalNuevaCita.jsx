@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import {
     Modal, ModalBody, ModalContent, ModalHeader, Button, DatePicker, Input, Textarea,
-    Select, SelectItem, Switch, Autocomplete, AutocompleteItem
+    Select, SelectItem, Switch, Autocomplete, AutocompleteItem,
+    Chip
 } from '@nextui-org/react'
 import FormPacienteNuevo from './FormPacienteNuevo';
 import { peticionesPost } from '@/helpers/peticionesAPI';
 import { useNotification } from '@/helpers/NotificationContext';
 import AutoCompleteClientes from './AutoCompleteClientes';
 
-const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especialistas, id, rol }) => {
+const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especialistas, id, rol, nombreEspecialista }) => {
     const { showNotification } = useNotification()
     const [loading, setloading] = useState(false)
     const [formData, setFormData] = useState(
@@ -173,7 +174,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                         <div className='flex flex-col md:flex-row' >
                             <div className='w-full md:w-[50%] ml-5 mr-5' >
                                 <span>Especialista</span> <span style={{ color: 'red' }} >*</span>
-                                {rol == "Especialista" ? especialistas : <Select
+                                {rol == "Especialista" ? <Chip className='mt-1'  radius='sm' variant='flat' color='success' > {nombreEspecialista} </Chip> : <Select
                                     placeholder='Selecciona un especialista'
                                     value={formData.idUsuario}
                                     onChange={(value) => handleChange('idUsuario', value.target.value)}

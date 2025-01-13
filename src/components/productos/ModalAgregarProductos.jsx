@@ -1,21 +1,28 @@
 import { Button, Modal, ModalBody, ModalContent, ModalHeader, Checkbox } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { useNotification } from '@/helpers/NotificationContext'
+import { convertirImagen } from '@/helpers/imageToBase64'
 
 const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, producto }) => {
-  
+
     const { showNotification } = useNotification()
 
     const [loading, setloading] = useState(false)
-
+    const [productoExterno, setProductoExterno] = useState(false)
     const guardarProducto = async (e) => {
         e.preventDefault()
-
+        console.log(e.target.elements.imagen.files[0])
         try {
             setloading(true)
             const urlAPI = process.env.NEXT_PUBLIC_API_URL
             const token = sessionStorage.getItem('token')
             const urlQuery = producto ? `${urlAPI}editar-producto` : `${urlAPI}registrar-producto`
+            const imagen = e.target.elements.imagen.files[0]
+
+            let imageBase64 = await convertirImagen(imagen)
+
+            console.log(imageBase64)
+
             const response = await fetch(`${urlQuery}`, {
                 method: 'POST',
                 headers: {
@@ -32,7 +39,10 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, produc
                     importe: e.target.elements.importe.value,
                     precioVenta: e.target.elements.precioVenta.value,
                     codigoBarras: e.target.elements.codigoBarras.value,
-                    productoFarmacia: e.target.elements.productoFarmacia.checked
+                    productoFarmacia: e.target.elements.productoFarmacia.checked,
+                    ventaExterna: e.target.elements.ventaExterna.checked,
+                    image: imageBase64
+
                 })
             })
 
@@ -112,12 +122,26 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, produc
                             </div>
                         </div>
 
-                        <div className="flex items-start mb-5">
-                            <div className="flex items-center h-5">
+                        <div className="flex flex-col md:flex-row gap-4">
+                            <div className="flex-grow flex-basis-2  mb-5">
                                 <input id="productoFarmacia" defaultChecked={producto?.producto_farmacia} type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                                <label htmlFor="productoFarmacia" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">¿Es de farmacia?</label>
                             </div>
-                            <label htmlFor="productoFarmacia" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Es de farmacia?</label>
+                            <div className="flex-grow flex-basis-2  mb-5">
+                                <input id="ventaExterna" defaultChecked={producto?.ventaExterna} type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                                <label htmlFor="ventaExterna" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">¿Es para venta externa?</label>
+                            </div>
                         </div>
+                        <div>
+                            <h1>Cargar una imagen</h1>
+                            <input
+                                type="file"
+                                accept=".png, .jpg, .jpeg"
+                                id="imagen"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            />
+                        </div>
+
                         <div className='float-end' >
                             <Button type='submit' color='primary' > {producto ? 'Editar producto' : 'Guardar producto'} </Button>
                         </div>

@@ -166,9 +166,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
 
                                 value={formData.motivo}
                                 onChange={(e) => handleChange('motivo', e.target.value)}
-                                isRequired
-                                isInvalid={error.motivo ? true : false}
-                                errorMessage={error.motivo && "Este campo es obligatorio"}
+                              
                             />
                         </div>
                         <div className='flex flex-col md:flex-row' >

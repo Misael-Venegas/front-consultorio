@@ -6,7 +6,9 @@ const FormPacienteNuevo = ({ formData, error, handleChange }) => {
     const [fechaNacieminto, setFechaNacieminto] = useState(null)
 
     const enviarFecha = (e) => {
-        setFechaNacieminto(e.year + '-' + e.month + '-' + e.day)
+        if (e === "") {
+            setFechaNacieminto(e.year + '-' + e.month + '-' + e.day)
+        }
         handleChange('fechaNacimientoPaciente', e)
     }
     console.log(fechaNacieminto)
@@ -64,9 +66,6 @@ const FormPacienteNuevo = ({ formData, error, handleChange }) => {
                     <DatePicker
                         showMonthAndYearPickers
                         onChange={(value) => enviarFecha(value)}
-                        isRequired
-                        isInvalid={error.fechaNacimientoPaciente ? true : false}
-                        errorMessage={error.fechaNacimientoPaciente && "Este campo es obligatorio"}
                         color='primary'
 
                     />

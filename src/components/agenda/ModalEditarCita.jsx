@@ -114,11 +114,9 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
                         <div className='ml-5 mr-5'>
                             <span>Motivo de la consulta</span> <span style={{ color: 'red' }} >*</span>
                             <Textarea
-                                value={formData.motivo}
+                                value={formData?.motivo}
                                 onChange={(e) => handleChange('motivo', e.target.value)}
-                                isRequired
-                                isInvalid={error.motivo ? true : false}
-                                errorMessage={error.motivo && "Este campo es obligatorio"}
+                            
                             />
                         </div>
                         <div className='flex flex-col md:flex-row' >

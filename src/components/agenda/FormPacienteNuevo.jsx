@@ -3,15 +3,20 @@ import { DatePicker, Divider, Input } from '@nextui-org/react'
 import React, { useState } from 'react'
 
 const FormPacienteNuevo = ({ formData, error, handleChange }) => {
-    const [fechaNacieminto, setFechaNacieminto] = useState(null)
-
+  
     const enviarFecha = (e) => {
-        if (e === "") {
-            setFechaNacieminto(e.year + '-' + e.month + '-' + e.day)
+        if (e != "") {
+            const fechaPaciente = e.year + '-' + e.month + '-' + e.day
+            const datoEdad = calcularEdad(fechaPaciente)
+            handleChange('edadPaciente', datoEdad)
         }
         handleChange('fechaNacimientoPaciente', e)
     }
-    console.log(fechaNacieminto)
+
+    const edadPaciente = (e) => {
+        handleChange('edadPaciente', e)
+    }
+
     return (
         <>
             <Divider />
@@ -70,12 +75,15 @@ const FormPacienteNuevo = ({ formData, error, handleChange }) => {
 
                     />
                 </div>
-                {
-                    fechaNacieminto && <div className='w-full md:w-[50%] ml-5 mr-5 pt-8' >
+                <div className='w-full md:w-[50%] ml-5 mr-5' >
+                    <span>Edad</span>
+                    <Input
+                        value={formData.edadPaciente}
+                        onChange={(e) => edadPaciente(e.target.value)}
+                    />
 
-                        <b> Edad: {calcularEdad(fechaNacieminto)} años</b>
-                    </div>
-                }
+                </div>
+
 
             </div>
             <Divider />

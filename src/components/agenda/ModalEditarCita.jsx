@@ -38,7 +38,7 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
             const newError = {
                 fecha: !formData.fecha,
                 hora: !formData.hora,
-                motivo: !formData.motivo,
+                //motivo: !formData.motivo,
                 idUsuario: !formData.idUsuario,
             };
             setError(newError);
@@ -63,6 +63,8 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
             setActualizarCards(Math.random())
         } catch (error) {
             showNotification(error.message, 'error')
+        } finally {
+            setloading(false)
         }
     }
 
@@ -112,11 +114,11 @@ const ModalEditarCita = ({ openModal, setOpenModal, setActualizarCards, especial
                             </div>
                         </div>
                         <div className='ml-5 mr-5'>
-                            <span>Motivo de la consulta</span> <span style={{ color: 'red' }} >*</span>
+                            <span>Motivo de la consulta</span>
                             <Textarea
                                 value={formData?.motivo}
                                 onChange={(e) => handleChange('motivo', e.target.value)}
-                            
+
                             />
                         </div>
                         <div className='flex flex-col md:flex-row' >

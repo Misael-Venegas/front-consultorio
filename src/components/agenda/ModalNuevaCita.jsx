@@ -163,16 +163,15 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                         <div className='ml-5 mr-5'>
                             <span>Motivo de la consulta</span> <span style={{ color: 'red' }} >*</span>
                             <Textarea
-
                                 value={formData.motivo}
                                 onChange={(e) => handleChange('motivo', e.target.value)}
-                              
+
                             />
                         </div>
                         <div className='flex flex-col md:flex-row' >
                             <div className='w-full md:w-[50%] ml-5 mr-5' >
                                 <span>Especialista</span> <span style={{ color: 'red' }} >*</span>
-                                {rol == "Especialista" ? <Chip className='mt-1'  radius='sm' variant='flat' color='success' > {nombreEspecialista} </Chip> : <Select
+                                {rol == "Especialista" ? <Chip className='mt-1' radius='sm' variant='flat' color='success' > {nombreEspecialista} </Chip> : <Select
                                     placeholder='Selecciona un especialista'
                                     value={formData.idUsuario}
                                     onChange={(value) => handleChange('idUsuario', value.target.value)}

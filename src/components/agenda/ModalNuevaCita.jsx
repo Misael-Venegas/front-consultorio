@@ -24,7 +24,8 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
             aMaternoPaciente: "",
             telefonoPaciente: "",
             pacienteNuevo: false,
-            fechaNacimientoPaciente: ""
+            fechaNacimientoPaciente: "",
+            edadPaciente: ''
         }
     )
     const [error, setError] = useState({}); // Para manejar los errores de cada campo
@@ -47,13 +48,13 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
             const newError = {
                 fecha: !formData.fecha,
                 hora: !formData.hora,
-                motivo: !formData.motivo,
+                //motivo: !formData.motivo,
                 idUsuario: !formData.idUsuario,
                 idPaciente: formData.pacienteNuevo ? '' : !formData.idPaciente,
                 nombrePaciente: !formData.pacienteNuevo ? '' : !formData.nombrePaciente,
                 aPaternoPaciente: !formData.pacienteNuevo ? '' : !formData.aPaternoPaciente,
                 telefonoPaciente: !formData.pacienteNuevo ? '' : !formData.telefonoPaciente,
-                fechaNacimientoPaciente: !formData.pacienteNuevo ? '' : !formData.fechaNacimientoPaciente
+                //fechaNacimientoPaciente: !formData.pacienteNuevo ? '' : !formData.fechaNacimientoPaciente
             };
             setError(newError);
 
@@ -63,10 +64,13 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
             }
 
             const fechaCitaFormateada = formatearFecha(formData.fecha)
-            const fechaNacimientoClienteFormateada = formatearFecha(formData.fechaNacimientoPaciente)
-
+            formData.fechaNacimientoPaciente = ""
+            if (formData.fechaNacimientoPaciente != '') {
+                const fechaNacimientoClienteFormateada = formatearFecha(formData.fechaNacimientoPaciente)
+                formData.fechaNacimientoPaciente = fechaNacimientoClienteFormateada
+            }
             formData.fecha = fechaCitaFormateada
-            formData.fechaNacimientoPaciente = fechaNacimientoClienteFormateada
+
 
             const response = await peticionesPost('agendar-cita', true, formData)
 
@@ -161,7 +165,7 @@ const ModalNuevaCita = ({ openModal, setOpenModal, setActualizarCards, especiali
                             </div>
                         </div>
                         <div className='ml-5 mr-5'>
-                            <span>Motivo de la consulta</span> <span style={{ color: 'red' }} >*</span>
+                            <span>Motivo de la consulta</span>
                             <Textarea
                                 value={formData.motivo}
                                 onChange={(e) => handleChange('motivo', e.target.value)}

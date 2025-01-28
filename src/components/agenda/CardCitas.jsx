@@ -28,6 +28,9 @@ const CardCitas = ({ datosConsultas, setActualizarCita, especialistas }) => {
                                         </div>
                                     </p>
                                     <p className='text-slate-500 pt-2' >
+                                        <b>Teléfono:</b>   {consulta.telefono}
+                                    </p>
+                                    <p className='text-slate-500 pt-2' >
                                         <b>Motivo:</b>   {consulta.motivo_consulta}
                                     </p>
                                     <p className='pt-2' >

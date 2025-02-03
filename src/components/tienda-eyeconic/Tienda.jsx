@@ -1,6 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image } from '@nextui-org/react'
+import { peticionGet } from '@/helpers/peticionesAPI'
+import { useNotification } from '@/helpers/NotificationContext';
+import { CardProducto } from './CardProducto';
+
 const Tienda = () => {
+    const { showNotification } = useNotification()
+    const [loading, setLoading] = useState(false)
+    const [dataProductos, setdataProductos] = useState([])
+    useEffect(() => {
+        obtenerProductos()
+    }, [])
+
+    const obtenerProductos = async () => {
+        try {
+            setLoading(true)
+            const response = await peticionGet('users/obtener-productos-tienda', false)
+            if (!response.ok) {
+                const dataError = await response.json()
+                throw new Error(dataError.message)
+            }
+
+            //console.log(await response.json())
+
+            const productosData = await response.json()
+            setdataProductos(productosData)
+
+        } catch (error) {
+            showNotification(error.message, 'error')
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <>
             <div className='flex flex-col md:flex-row pt-5' >
@@ -8,27 +40,14 @@ const Tienda = () => {
                     <h1>Filtros</h1>
                 </div>
                 <div className='flex' >
-                    <Image
-                        alt="NextUI hero Image with delay"
-                        fallbackSrc="https://via.placeholder.com/300x200"
-                        height={200}
-                        src="https://nextui.org/images/hero-card-complete.jpeg"
-                        width={300}
-                    />
-                    <Image
-                        alt="NextUI hero Image with delay"
-                        fallbackSrc="https://via.placeholder.com/300x200"
-                        height={220}
-                        src="https://nextui.org/images/hero-card-complete.jpeg"
-                        width={300}
-                    />
-                    <Image
-                        alt="NextUI hero Image with delay"
-                        fallbackSrc="https://via.placeholder.com/300x200"
-                        height={200}
-                        src="https://nextui.org/images/hero-card-complete.jpeg"
-                        width={300}
-                    />
+
+                    {
+                        dataProductos.map((e, key) => {
+                            return <CardProducto producto={e} key={key} />
+                        })
+                    }
+
+
                 </div>
             </div>
         </>

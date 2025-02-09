@@ -3,19 +3,25 @@
 import React, { useEffect, useState } from 'react'
 import { RiMenuLine } from "react-icons/ri";
 import { IoCloseSharp } from "react-icons/io5";
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { Avatar, Badge, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { useAuth } from '@/helpers/AuthContext';
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { TbExchange } from "react-icons/tb";
 import { useRouter } from 'next/navigation';
 import ModalCambiarContrasenha from './ModalCambiarContrasenha';
+import { BsCartPlusFill } from "react-icons/bs";
 import ItemsMenu from './ItemsMenu';
 import ItemsMenuMobile from './ItemsMenuMobile';
+import DrawerStore from '@/components/tienda-eyeconic/DrawerStore';
+import { useCarrito } from '@/helpers/CarritoContext';
 
 const NavBar = () => {
+    const { carrito } = useCarrito()
+    //aqui quiero que se refleje la cantidad de productos en el badge
     const router = useRouter()
     const { userInformation } = useAuth()
     const [isClick, setisClick] = useState(false)
+    const [openDrawer, setOpenDrawer] = useState(false)
     const [openModalContrasenha, setopenModalContrasenha] = useState(false)
     const toggleNabVar = () => {
         setisClick(!isClick)
@@ -41,8 +47,14 @@ const NavBar = () => {
                         <div className='ml-4 flex items-center space-x-4'>
 
                             <ItemsMenu rolUsuario={userInformation.rol} />
+                            <span className='text-3xl seccionar-item' onClick={() => setOpenDrawer(true)} >
+                                <Badge color='warning' size='sm' content={carrito.length}>
+                                    <BsCartPlusFill />
+                                </Badge>
+                            </span>
                             <span  >
                                 {userInformation.nombre ? <Dropdown>
+
                                     <DropdownTrigger>
                                         <Avatar name={userInformation.nombre ? userInformation.nombre : userInformation.nombre} className='seccionar-item' />
                                     </DropdownTrigger>
@@ -71,7 +83,11 @@ const NavBar = () => {
                     <div className='md:hidden'>
                         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3' >
                             <ItemsMenuMobile rolUsuario={userInformation.rol} />
-
+                            <span className='text-3xl seccionar-item' onClick={() => setOpenDrawer(true)} >
+                                <Badge color='warning' size='sm' content={carrito.length} >
+                                    <BsCartPlusFill />
+                                </Badge>
+                            </span>
                             <span  >
                                 <Avatar name={userInformation.usuario} className='seccionar-item' />
                             </span>
@@ -80,6 +96,7 @@ const NavBar = () => {
                 )
             }
             <ModalCambiarContrasenha openModal={openModalContrasenha} setOpenModal={setopenModalContrasenha} />
+            <DrawerStore isOpen={openDrawer} setOpenChange={setOpenDrawer} />
         </nav>
     )
 }

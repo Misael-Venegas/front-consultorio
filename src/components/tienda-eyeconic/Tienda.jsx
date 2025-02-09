@@ -8,6 +8,7 @@ const Tienda = () => {
     const { showNotification } = useNotification()
     const [loading, setLoading] = useState(false)
     const [dataProductos, setdataProductos] = useState([])
+
     useEffect(() => {
         obtenerProductos()
     }, [])
@@ -32,6 +33,7 @@ const Tienda = () => {
             setLoading(false)
         }
     }
+
 
     return (
         <>

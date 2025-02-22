@@ -17,7 +17,6 @@ import { useCarrito } from '@/helpers/CarritoContext';
 
 const NavBar = () => {
     const { carrito } = useCarrito()
-    //aqui quiero que se refleje la cantidad de productos en el badge
     const router = useRouter()
     const { userInformation } = useAuth()
     const [isClick, setisClick] = useState(false)

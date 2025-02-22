@@ -8,58 +8,61 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, produc
     const { showNotification } = useNotification()
 
     const [loading, setloading] = useState(false)
-    const [productoExterno, setProductoExterno] = useState(false)
+
     const guardarProducto = async (e) => {
-        e.preventDefault()
-        console.log(e.target.elements.imagen.files[0])
+        e.preventDefault();
+
         try {
-            setloading(true)
-            const urlAPI = process.env.NEXT_PUBLIC_API_URL
-            const token = sessionStorage.getItem('token')
-            const urlQuery = producto ? `${urlAPI}editar-producto` : `${urlAPI}registrar-producto`
-            const imagen = e.target.elements.imagen.files[0]
+            setloading(true);
+            const urlAPI = process.env.NEXT_PUBLIC_API_URL;
+            const token = sessionStorage.getItem('token');
+            const urlQuery = producto ? `${urlAPI}editar-producto` : `${urlAPI}registrar-producto`;
+            const imagen = e.target.elements.imagen.files[0];
 
-            let imageBase64 = await convertirImagen(imagen)
+            // Crear un objeto FormData
+            const formData = new FormData();
+            formData.append("id", producto ? producto.id : "");
+            formData.append("nombreProducto", e.target.elements.nombre.value);
+            formData.append("cantidad", e.target.elements.cantidad.value);
+            formData.append("unidad", e.target.elements.unidad.value);
+            formData.append("descripcion", e.target.elements.descripcion.value);
+            formData.append("precioUnitario", e.target.elements.precio.value);
+            formData.append("importe", e.target.elements.importe.value);
+            formData.append("precioVenta", e.target.elements.precioVenta.value);
+            formData.append("codigoBarras", e.target.elements.codigoBarras.value);
+            formData.append("productoFarmacia", e.target.elements.productoFarmacia.checked);
+            formData.append("ventaExterna", e.target.elements.ventaExterna.checked);
 
-            console.log(imageBase64)
-
-            const response = await fetch(`${urlQuery}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: producto ? producto.id : '',
-                    nombreProducto: e.target.elements.nombre.value,
-                    cantidad: e.target.elements.cantidad.value,
-                    unidad: e.target.elements.unidad.value,
-                    descripcion: e.target.elements.descripcion.value,
-                    precioUnitario: e.target.elements.precio.value,
-                    importe: e.target.elements.importe.value,
-                    precioVenta: e.target.elements.precioVenta.value,
-                    codigoBarras: e.target.elements.codigoBarras.value,
-                    productoFarmacia: e.target.elements.productoFarmacia.checked,
-                    ventaExterna: e.target.elements.ventaExterna.checked,
-                    image: imageBase64
-
-                })
-            })
-
-            if (!response.ok) {
-                const errorData = await response.json()
-                throw new Error(errorData.message)
+            // Agregar la imagen solo si el usuario seleccionó una
+            if (imagen) {
+                formData.append("imagen", imagen);
             }
 
-            showNotification('El producto se guardó de manera correcta', 'success')
-            setUpdateTable(Math.random())
+            console.log(formData)
+        
+            const response = await fetch(`${urlQuery}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: formData, // Enviar FormData en el cuerpo de la solicitud
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+
+            showNotification("El producto se guardó de manera correcta", "success");
+            setUpdateTable(Math.random());
         } catch (error) {
-            showNotification(error.message, 'error')
+            showNotification(error.message, "error");
         } finally {
-            setloading(false)
-            setOpenModal(false)
+            setloading(false);
+            setOpenModal(false);
         }
-    }
+    };
+
 
     return (
         <Modal

@@ -38,9 +38,10 @@ const Tienda = () => {
     return (
         <>
             <div className='flex flex-col md:flex-row pt-5' >
-                <div className='w-full md:w-[20%]' >
+                { /* <div className='w-full md:w-[20%]' >
                     <h1>Filtros</h1>
                 </div>
+                */}
                 <div className='flex' >
 
                     {

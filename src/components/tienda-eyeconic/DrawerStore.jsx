@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Drawer,
     DrawerContent,
@@ -7,40 +7,64 @@ import {
     DrawerFooter,
 
 } from '@heroui/drawer'
-import { Button } from '@nextui-org/react'
+import { Button, Divider, Image } from '@nextui-org/react'
+import { useCarrito } from '@/helpers/CarritoContext'
+
 const DrawerStore = ({ isOpen, setOpenChange }) => {
+    const { carrito, quitarProducto } = useCarrito()
+    const [total, settotal] = useState(0.0)
+
+    const calcularTotal = () => {
+        let totalVenta = 0.0
+        carrito.map(item => {
+            // console.log(item.precio_venta)
+            totalVenta = (parseFloat(totalVenta) + parseFloat(item.precio_venta * item.cantidad))
+        })
+        settotal(totalVenta)
+        return totalVenta
+    }
+
+
+
     return (
         <>
             <Drawer isOpen={isOpen} onOpenChange={() => setOpenChange(false)}>
                 <DrawerContent>
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="flex flex-col gap-1">Drawer Title</DrawerHeader>
+                            <DrawerHeader className="flex flex-col gap-1">Productos</DrawerHeader>
                             <DrawerBody>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non
-                                    risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor
-                                    quam.
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non
-                                    risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor
-                                    quam.
-                                </p>
-                                <p>
-                                    Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit dolor
-                                    adipisicing. Mollit dolor eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                                    officia eiusmod Lorem aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                                    nisi consectetur esse laborum eiusmod pariatur proident Lorem eiusmod et. Culpa
-                                    deserunt nostrud ad veniam.
-                                </p>
+                                {
+                                    carrito.map((item, key) => {
+
+                                        return <div key={key} className='flex flex-col md:flex-row' >
+                                            <div className='w-full md:w-[30%]' >
+                                                <Image
+                                                    alt="Card background"
+                                                    className="object-cover rounded-xl"
+                                                    src={`http://localhost:3001/imagenesProductos/${item.url.split('\\').pop().split('/').pop()}`}
+                                                    width={70}
+                                                    height={70}
+                                                />
+                                            </div>
+                                            <div className='w-full md:w-[70%]' >
+                                                <span>{item.nombre_producto}</span> <br />
+                                                <strong>${item.precio_venta} mxn</strong> <br />
+                                                <span>Cantidad {item.cantidadProductos} </span>
+                                            </div>
+                                            <span className='text-red-700 seccionar-item' onClick={() => quitarProducto(item.id)} >Eliminar</span>
+                                        </div>
+                                    })
+                                }
+                                <Divider />
+                                <div className='w-full text-right' >
+                                    <strong  >Total ${calcularTotal()} </strong>
+                                </div>
                             </DrawerBody>
                             <DrawerFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
+
                                 <Button color="primary" onPress={onClose}>
-                                    Action
+                                    Realizar compra
                                 </Button>
                             </DrawerFooter>
                         </>

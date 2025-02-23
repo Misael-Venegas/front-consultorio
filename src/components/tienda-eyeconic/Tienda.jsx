@@ -42,7 +42,7 @@ const Tienda = () => {
                     <h1>Filtros</h1>
                 </div>
                 */}
-                <div className='flex' >
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-5' >
 
                     {
                         dataProductos.map((e, key) => {

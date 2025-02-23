@@ -8,20 +8,12 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, produc
     const { showNotification } = useNotification()
 
     const [loading, setloading] = useState(false)
+    const [productoExterno, setProductoExterno] = useState(false)
 
     const guardarProducto = async (e) => {
         e.preventDefault();
-
         try {
-            setloading(true);
-            const urlAPI = process.env.NEXT_PUBLIC_API_URL;
-            const token = sessionStorage.getItem('token');
-            const urlQuery = producto ? `${urlAPI}editar-producto` : `${urlAPI}registrar-producto`;
-            const imagen = e.target.elements.imagen.files[0];
-
-            // Crear un objeto FormData
             const formData = new FormData();
-            formData.append("id", producto ? producto.id : "");
             formData.append("nombreProducto", e.target.elements.nombre.value);
             formData.append("cantidad", e.target.elements.cantidad.value);
             formData.append("unidad", e.target.elements.unidad.value);
@@ -33,32 +25,32 @@ const ModalAgregarProductos = ({ openModal, setOpenModal, setUpdateTable, produc
             formData.append("productoFarmacia", e.target.elements.productoFarmacia.checked);
             formData.append("ventaExterna", e.target.elements.ventaExterna.checked);
 
-            // Agregar la imagen solo si el usuario seleccionó una
+            const imagen = e.target.elements.imagen.files[0];
+            
             if (imagen) {
-                formData.append("imagen", imagen);
+                formData.append("image", imagen);
             }
 
-            console.log(formData)
-        
-            const response = await fetch(`${urlQuery}`, {
-                method: "POST",
+            const token = sessionStorage.getItem('token')
+            console.log(token)
+            const url = process.env.NEXT_PUBLIC_API_URL
+            const response = await fetch(`${url}registrar-producto`, {
+                method: 'POST',
                 headers: {
-                    "Authorization": `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`
                 },
-                body: formData, // Enviar FormData en el cuerpo de la solicitud
+                body: formData,
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message);
+                throw new Error('Error al guardar el producto');
             }
 
-            showNotification("El producto se guardó de manera correcta", "success");
+            showNotification('El producto se guardó de manera correcta', 'success');
             setUpdateTable(Math.random());
         } catch (error) {
-            showNotification(error.message, "error");
+            showNotification(error.message, 'error');
         } finally {
-            setloading(false);
             setOpenModal(false);
         }
     };

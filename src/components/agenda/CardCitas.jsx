@@ -21,7 +21,7 @@ const CardCitas = ({ datosConsultas, setActualizarCita, especialistas }) => {
                                 </div>
 
                                 <div className='w-full md:w-[80%] mr-5 ml-5 text-start ' >
-                                    <Chip color={consulta?.estado == 1 ? 'secondary' : (consulta?.estado == 2 ? 'success' : 'danger')} variant='flat' className='float-end' > {consulta?.estado == 1 ? 'Pendiente' : consulta?.estado == 2 ? 'Concluida' : 'Cancelada'} </Chip>
+                                    <Chip color={consulta?.estado == 1 ? 'secondary' : (consulta?.estado == 2 ? 'success' : consulta?.estado == 4 ? 'warning' : 'danger')} variant='flat' className='float-end' > {consulta?.estado == 1 ? 'Pendiente' : consulta?.estado == 2 ? 'Concluida' : consulta?.estado == 4 ? 'No asistió' : 'Cancelada'} </Chip>
                                     <p className='text-lg text-[#2A84E9]' >
                                         <div className='flex'>
                                             <span className='pt-2 mr-2 text-sm' ><FaUserLarge /></span>   {consulta.paciente}

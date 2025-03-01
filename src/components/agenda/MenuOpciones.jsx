@@ -6,6 +6,7 @@ import { useNotification } from '@/helpers/NotificationContext'
 import { peticionGet } from '@/helpers/peticionesAPI'
 import ConfirmDialog from '@/helpers/ConfirmDialog'
 import { FaCheck } from "react-icons/fa6";
+import { BiBlock } from "react-icons/bi";
 import ModalEditarCita from './ModalEditarCita'
 
 const MenuOpciones = ({ cita, setActualizarTabla, especialistas }) => {
@@ -22,6 +23,7 @@ const MenuOpciones = ({ cita, setActualizarTabla, especialistas }) => {
             }
             setActualizarTabla(Math.random())
             showNotification('Cita cancelada', 'success')
+            closeDialog()
         } catch (error) {
             showNotification(error.message, 'error')
         }
@@ -35,9 +37,9 @@ const MenuOpciones = ({ cita, setActualizarTabla, especialistas }) => {
         setconfirDialogOpen(false)
     }
 
-    const concluirCita = async _ => {
+    const concluirCita = async (tipo) => {
         try {
-            const response = await peticionGet(`aprobar-cita/${cita.id}`, true)
+            const response = await peticionGet(`aprobar-cita/${cita.id}/${tipo}`, true)
             if (!response.ok) {
                 const dataError = await response.json()
                 throw new Error(dataError.message)
@@ -67,9 +69,14 @@ const MenuOpciones = ({ cita, setActualizarTabla, especialistas }) => {
                         <span className='inline-flex'>Editar <MdEdit /> </span>
                     </DropdownItem>
                     <DropdownItem
-                        onClick={() => concluirCita()}
+                        onClick={() => concluirCita(2)}
                     >
                         <span className='inline-flex'>Concluir cita <FaCheck /> </span>
+                    </DropdownItem>
+                    <DropdownItem
+                        onClick={() => concluirCita(4)}
+                    >
+                        <span className='inline-flex'>No asistió <BiBlock /> </span>
                     </DropdownItem>
                     <DropdownItem
                         key="delete"

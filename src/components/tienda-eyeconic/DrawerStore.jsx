@@ -9,6 +9,7 @@ import {
 } from '@heroui/drawer'
 import { Button, Divider, Image } from '@nextui-org/react'
 import { useCarrito } from '@/helpers/CarritoContext'
+import PaymentPage from '@/helpers/PayForm'
 
 const DrawerStore = ({ isOpen, setOpenChange }) => {
     const { carrito, quitarProducto } = useCarrito()
@@ -16,9 +17,10 @@ const DrawerStore = ({ isOpen, setOpenChange }) => {
 
     const calcularTotal = () => {
         let totalVenta = 0.0
+
         carrito.map(item => {
-            // console.log(item.precio_venta)
-            totalVenta = (parseFloat(totalVenta) + parseFloat(item.precio_venta * item.cantidad))
+            console.log(item)
+            totalVenta = (parseFloat(totalVenta) + parseFloat(item.precio_venta * item.cantidadProductos))
         })
         settotal(totalVenta)
         return totalVenta
@@ -60,13 +62,11 @@ const DrawerStore = ({ isOpen, setOpenChange }) => {
                                 <div className='w-full text-right' >
                                     <strong  >Total ${calcularTotal()} </strong>
                                 </div>
-                            </DrawerBody>
-                            <DrawerFooter>
 
-                                <Button color="primary" onPress={onClose}>
-                                    Realizar compra
-                                </Button>
-                            </DrawerFooter>
+                                <PaymentPage monto={total} />
+
+                            </DrawerBody>
+
                         </>
                     )}
                 </DrawerContent>

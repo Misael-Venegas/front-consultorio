@@ -12,7 +12,7 @@ export const CarritoProvider = ({ children }) => {
 
     //funcion para agregar un producto al carrito
     const agregarAlCarrito = (producto) => {
-
+        console.log(producto)
         let indice = null
         carrito.find((element, i) => {
 
